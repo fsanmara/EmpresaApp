@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EmpresaApp</string>
+    <string name="Welcome">Bienvenido</string>
+    <string name="password">contraseña</string>
+    <string name="login">login</string>
+    <string name="registrar">REGISTRARSE</string>
+    <string name="registro">Por favor, rellene los siguientes datos:</string>
+    <string name="email">email</string>
+    <string name="NIF">NIF</string>
+    <string name="nombre">nombre</string>
+    <string name="apellido1">apellido 1</string>
+    <string name="apellido2">apellido 2</string>
+    <string name="teléfono">teléfono</string>
+</resources>
