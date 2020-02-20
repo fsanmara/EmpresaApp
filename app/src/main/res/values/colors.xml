@@ -8,4 +8,7 @@
     <color name="lightwhite">#F5F5F3</color>
     <color name="whitecolor">#fff</color>
     <color name="fullwhite">#C6C6C6</color>
+    <color name="azul">#00acee</color>
+    <color name="rojo">#FF0000</color>
+
 </resources>
