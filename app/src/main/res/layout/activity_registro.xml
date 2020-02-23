@@ -4,32 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/lightwhite"
+    android:orientation="vertical"
     android:padding="10dp"
     tools:context=".RegistroActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="login"
-            android:src="@drawable/ic_arrow_back_blue_24dp"/>
+            android:src="@drawable/ic_arrow_back_blue_24dp" />
 
         <TextView
             android:id="@+id/LogInbtn"
-            android:onClick="login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login"
             android:gravity="end"
+            android:onClick="login"
+            android:text="@string/login"
             android:textColor="@color/blackcolor"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -38,125 +38,125 @@
         android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/crea_cuenta"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/blackcolor"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/crea_cuenta"
+                android:textColor="@color/blackcolor"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/email"
-            android:layout_marginTop="35dp"
-            android:paddingLeft="15dp"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"/>
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/password"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:inputType="textPassword"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"
-            />
+            <EditText
+                android:id="@+id/etClave"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/NIF"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:inputType="text"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"
-            />
+            <EditText
+                android:id="@+id/etNif"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/NIF"
+                android:inputType="text"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/nombre"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:inputType="textPersonName"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"
-            />
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/nombre"
+                android:inputType="textPersonName"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/apellido1"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:inputType="textPersonName"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"
-            />
+            <EditText
+                android:id="@+id/etApellido1"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/apellido1"
+                android:inputType="textPersonName"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/apellido2"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:inputType="textPersonName"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"
-            />
+            <EditText
+                android:id="@+id/etApellido2"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/apellido2"
+                android:inputType="textPersonName"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:hint="@string/teléfono"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
-            android:inputType="phone"
-            android:textColorHint="@color/fullwhite"
-            android:elevation="5dp"
-            android:background="@drawable/edt_login"
-            />
+            <EditText
+                android:id="@+id/etTeléfono"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_login"
+                android:elevation="5dp"
+                android:hint="@string/teléfono"
+                android:inputType="phone"
+                android:paddingLeft="15dp"
+                android:textColorHint="@color/fullwhite" />
 
-        <Button
-            android:layout_width="280dp"
-            android:layout_height="45dp"
-            android:id="@+id/btn_crearCuenta"
-            android:text="@string/crea_cuenta_btn"
-            android:textColor="@color/whitecolor"
-            android:textAllCaps="false"
-            android:layout_marginTop="25dp"
-            android:elevation="5dp"
-            android:background="@drawable/btn"/>
+            <Button
+                android:id="@+id/btnRegistrar"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/btn"
+                android:elevation="5dp"
+                android:text="@string/crea_cuenta_btn"
+                android:textAllCaps="false"
+                android:textColor="@color/whitecolor" />
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-    </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 
