@@ -32,4 +32,3 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-core:17.2.2'
 }
-
