@@ -139,6 +139,12 @@
                 android:paddingLeft="15dp"
                 android:textColorHint="@color/fullwhite" />
 
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
             <Button
                 android:id="@+id/btnRegistrar"
                 android:layout_width="280dp"
@@ -149,12 +155,6 @@
                 android:text="@string/crea_cuenta_btn"
                 android:textAllCaps="false"
                 android:textColor="@color/whitecolor" />
-
-            <ProgressBar
-                android:id="@+id/progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
 
         </LinearLayout>
 

@@ -68,7 +68,6 @@
 
             </LinearLayout>
 
-
             <EditText
                 android:id="@+id/txtEmail"
                 android:layout_width="280dp"
@@ -93,6 +92,13 @@
                 android:inputType="textPassword"
                 android:paddingLeft="15dp" />
 
+            <ProgressBar
+                android:id="@+id/loginProgressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="280dp"
@@ -103,13 +109,6 @@
                 android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@color/whitecolor" />
-
-            <ProgressBar
-                android:id="@+id/loginProgressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                />
 
         </LinearLayout>
 
