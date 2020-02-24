@@ -69,45 +69,36 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/txtEmail"
-                android:layout_width="280dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/edt_login"
-                android:elevation="5dp"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:paddingLeft="15dp" />
-
-            <EditText
-                android:id="@+id/txtContraseña"
-                android:layout_width="280dp"
-                android:layout_height="45dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edt_login"
-                android:elevation="5dp"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:paddingLeft="15dp" />
-
-            <ProgressBar
-                android:id="@+id/loginProgressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                />
-
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnVacaciones"
                 android:layout_width="280dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/btn"
-                android:text="@string/login"
+                android:text="@string/vacaciones"
+                android:textAllCaps="false"
+                android:textColor="@color/whitecolor" />
+
+            <Button
+                android:id="@+id/btnTurnos"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btn"
+                android:text="@string/turnos"
+                android:textAllCaps="false"
+                android:textColor="@color/whitecolor" />
+
+            <Button
+                android:id="@+id/btnFichajes"
+                android:layout_width="280dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btn"
+                android:text="@string/fichajes"
                 android:textAllCaps="false"
                 android:textColor="@color/whitecolor" />
 

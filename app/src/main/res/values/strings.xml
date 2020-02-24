@@ -13,4 +13,8 @@
     <string name="apellido1">apellido 1</string>
     <string name="apellido2">apellido 2</string>
     <string name="teléfono">teléfono</string>
+    <string name="vacaciones">Vacaciones</string>
+    <string name="turnos">Turnos</string>
+    <string name="fichajes">Fichajes</string>
+    <string name="Hola">Hola, %1$s </string>
 </resources>
