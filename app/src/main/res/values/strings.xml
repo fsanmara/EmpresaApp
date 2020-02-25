@@ -17,4 +17,5 @@
     <string name="turnos">Turnos</string>
     <string name="fichajes">Fichajes</string>
     <string name="Hola">Hola, %1$s </string>
+    <string name="NombreUsuario">%1$s %2$s</string>
 </resources>

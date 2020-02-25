@@ -17,14 +17,17 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PrincipalActivity extends AppCompatActivity {
 
+    String nombre, apellido1, apellido2, nif, email, telefono, id, formateado;
+    Boolean esResponsable;
+    Trabajador trabajador;
+
     //declaramos vistas
-    TextView tvUser;
+    TextView tvNombreTrabajador;
+
 
     //declaramos objeto Firebase y referencia BBDD
     FirebaseAuth mAuth;
     DatabaseReference dbTrabajadores;
-    String nombre, formateado;
-
 
 
 
@@ -34,7 +37,7 @@ public class PrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_principal);
 
         //referenciamos vistas
-        tvUser = findViewById(R.id.tvUser);
+        tvNombreTrabajador = findViewById(R.id.tvNombreTrabajador);
 
 
         //obtenemos la instancia de FirebaseAuth para pasarla como parámetro a la instancia de la BBDD y
@@ -43,8 +46,59 @@ public class PrincipalActivity extends AppCompatActivity {
         dbTrabajadores = FirebaseDatabase.getInstance().getReference().child("Trabajadores").child(mAuth.getUid());
 
 
-
+        // consultamos la BBDD y lo hacemos en un hilo. Con el resultado de la consulta
+        // instanciamos un objeto de la clase Trabajador que podremos pasar a otras activitys.
+        // Además, mostraremos en un TextView el nombre del usuario que ha iniciado sesión
         dbTrabajadores.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        nombre        = dataSnapshot.child("nombre").getValue().toString();
+                        apellido1     = dataSnapshot.child("apellido1").getValue().toString();
+                        apellido2     = dataSnapshot.child("apellido2").getValue().toString();
+                        nif           = dataSnapshot.child("nif").getValue().toString();
+                        email         = dataSnapshot.child("email").getValue().toString();
+                        telefono      = dataSnapshot.child("telefono").getValue().toString();
+                        esResponsable = (Boolean) dataSnapshot.child("esResponsable").getValue();
+                        id            = dataSnapshot.getKey();
+                        
+                        //formateado = getString(R.string.Hola, nombre);
+                        formateado = getString(R.string.NombreUsuario, nombre, apellido1);
+
+                        trabajador = new Trabajador(
+                                id,
+                                email,
+                                nif,
+                                nombre,
+                                apellido1,
+                                apellido2,
+                                telefono,
+                                esResponsable);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tvNombreTrabajador.setText(formateado);
+                            }
+                        });
+
+                    }
+                }).start();
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        /*dbTrabajadores.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -61,7 +115,7 @@ public class PrincipalActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
     }
 }
