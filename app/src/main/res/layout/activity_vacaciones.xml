@@ -7,7 +7,7 @@
     android:background="@color/lightwhite"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".PrincipalActivity">
+    tools:context=".VacacionesActivity">
 
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:src="@drawable/ic_arrow_forward_black_24dp" />-->
 
         <TextView
-            android:id="@+id/tvNombreTrabajador"
+            android:id="@+id/tvNombreTrabajador_Vacaciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -43,16 +43,16 @@
             android:orientation="vertical">
 
 
-<!--            <TextView-->
-<!--                android:id="@+id/tvUser"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:fontFamily="sans-serif-medium"-->
-<!--                android:text=""-->
-<!--                android:textColor="@color/blackcolor"-->
-<!--                android:textSize="25sp"-->
-<!--                android:textStyle="bold" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/tvUser"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:fontFamily="sans-serif-medium"-->
+            <!--                android:text=""-->
+            <!--                android:textColor="@color/blackcolor"-->
+            <!--                android:textSize="25sp"-->
+            <!--                android:textStyle="bold" />-->
 
 
             <LinearLayout

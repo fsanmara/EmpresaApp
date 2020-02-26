@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +26,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
     //declaramos vistas
     TextView tvNombreTrabajador;
+    Button btnVacaciones, btnTurnos, btnFichajes;
 
 
     //declaramos objeto Firebase y referencia BBDD
@@ -38,11 +42,14 @@ public class PrincipalActivity extends AppCompatActivity {
 
         //referenciamos vistas
         tvNombreTrabajador = findViewById(R.id.tvNombreTrabajador);
+        btnVacaciones      = findViewById(R.id.btnVacaciones);
+        btnTurnos          = findViewById(R.id.btnTurnos);
+        btnFichajes        = findViewById(R.id.btnFichajes);
 
 
         //obtenemos la instancia de FirebaseAuth para pasarla como parámetro a la instancia de la BBDD y
         //obtener la referencia del "hijo" de "trabajadores" que esté logueado en ese momento
-        mAuth = FirebaseAuth.getInstance();
+        mAuth          = FirebaseAuth.getInstance();
         dbTrabajadores = FirebaseDatabase.getInstance().getReference().child("Trabajadores").child(mAuth.getUid());
 
 
@@ -116,6 +123,19 @@ public class PrincipalActivity extends AppCompatActivity {
 
             }
         });*/
+
+        // listener del botón Vacaciones que nos llevará a la Activity
+        // VacacionesActivity y en la que pasaremos
+        // el objeto Trabajador
+        btnVacaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), VacacionesActivity.class);
+                intent.putExtra("parametro", trabajador);
+                startActivity(intent);
+            }
+        });
 
     }
 }

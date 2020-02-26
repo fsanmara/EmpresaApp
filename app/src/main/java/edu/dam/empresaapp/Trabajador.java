@@ -1,6 +1,9 @@
 package edu.dam.empresaapp;
 
-public class Trabajador {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Trabajador implements Parcelable {
 
     private String email;
     private String nif;
@@ -35,8 +38,6 @@ public class Trabajador {
         this.telefono = telefono;
         this.esResponsable = esResponsable;
     }
-
-
 
     public String getEmail() {
         return email;
@@ -100,6 +101,47 @@ public class Trabajador {
 
     public void setEsResponsable(Boolean esResponsable) {
         this.esResponsable = esResponsable;
+    }
+
+    protected Trabajador(Parcel in) {
+        email = in.readString();
+        nif = in.readString();
+        nombre = in.readString();
+        apellido1 = in.readString();
+        apellido2 = in.readString();
+        telefono = in.readString();
+        id = in.readString();
+        byte tmpEsResponsable = in.readByte();
+        esResponsable = tmpEsResponsable == 0 ? null : tmpEsResponsable == 1;
+    }
+
+    public static final Creator<Trabajador> CREATOR = new Creator<Trabajador>() {
+        @Override
+        public Trabajador createFromParcel(Parcel in) {
+            return new Trabajador(in);
+        }
+
+        @Override
+        public Trabajador[] newArray(int size) {
+            return new Trabajador[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
+        dest.writeString(nif);
+        dest.writeString(nombre);
+        dest.writeString(apellido1);
+        dest.writeString(apellido2);
+        dest.writeString(telefono);
+        dest.writeString(id);
+        dest.writeByte((byte) (esResponsable == null ? 0 : esResponsable ? 1 : 2));
     }
 }
 
