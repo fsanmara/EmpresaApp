@@ -2,7 +2,9 @@ package edu.dam.empresaapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class VacacionesActivity extends AppCompatActivity {
@@ -21,7 +23,13 @@ public class VacacionesActivity extends AppCompatActivity {
 
         trabajador = getIntent().getParcelableExtra("parametro");
 
-        tvNombreTrabajador.setText(trabajador.getNombre() + " " + trabajador.getApellido1() + " "+ trabajador.getId()+
-                " " + trabajador.getEsResponsable());
+        tvNombreTrabajador.setText(trabajador.getNombre() + " " + trabajador.getApellido1());
+    }
+
+    //método que al pulsar en el ImageView (flecha) de la cabecera
+    //nos lleva a la pantalla anterior
+    public void volver(View view) {
+            Intent intent = new Intent(getApplicationContext(), PrincipalActivity.class);
+            startActivity(intent);
     }
 }
