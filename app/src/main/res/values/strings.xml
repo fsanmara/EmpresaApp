@@ -18,4 +18,17 @@
     <string name="fichajes">Fichajes</string>
     <string name="Hola">Hola, %1$s </string>
     <string name="NombreUsuario">%1$s %2$s</string>
+    <string name="Solicitar_Vacaciones">Solicitar vacaciones</string>
+    <string name="Seleccione_la_fecha_de_sus_vacaciones">Seleccione la fecha de sus vacaciones</string>
+    <string name="Consultar_vacaciones">Consultar vacaciones</string>
+    <string name="Consulte_el_periodo_seleccionado">Consulte el periodo seleccionado</string>
+    <string name="Consultar_solicitud">Consultar solicitud</string>
+    <string name="Consulte_el_estado_de_su_solicitud">Consulte el estado de su solicitud</string>
+    <string name="Volver">Volver</string>
+    <string name="Volver_a_la_pantalla_principal">Volver a la pantalla principal</string>
+
+
+
+
+
 </resources>

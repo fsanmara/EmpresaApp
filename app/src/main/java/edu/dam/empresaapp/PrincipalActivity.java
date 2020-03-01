@@ -105,24 +105,6 @@ public class PrincipalActivity extends AppCompatActivity {
             }
         });
 
-        /*dbTrabajadores.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                String nombre = dataSnapshot.child("nombre").getValue().toString();
-                //String apellido1 = dataSnapshot.child("apellido1").getValue().toString();
-                //String apellido2 = dataSnapshot.child("apellido2").getValue().toString();
-                @SuppressLint("StringFormatMatches") String formateado = getString(R.string.Hola, nombre);
-
-                tvUser.setText(formateado);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
 
         // listener del botón Vacaciones que nos llevará a la Activity
         // VacacionesActivity y en la que pasaremos
