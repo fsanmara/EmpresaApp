@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,8 +33,6 @@ public class PrincipalActivity extends AppCompatActivity {
     //declaramos objeto Firebase y referencia BBDD
     FirebaseAuth mAuth;
     DatabaseReference dbTrabajadores;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +59,9 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                //new Thread(new Runnable() {
+                    //@Override
+                    //public void run() {
 
                         nombre        = dataSnapshot.child("nombre").getValue().toString();
                         apellido1     = dataSnapshot.child("apellido1").getValue().toString();
@@ -86,15 +85,17 @@ public class PrincipalActivity extends AppCompatActivity {
                                 telefono,
                                 esResponsable);
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvNombreTrabajador.setText(formateado);
-                            }
-                        });
+                        //runOnUiThread(new Runnable() {
+                         //   @Override
+                         //   public void run() {
 
-                    }
-                }).start();
+
+                                tvNombreTrabajador.setText(formateado);
+                           // }
+                        //});
+
+                    //}
+                //}).start();
 
 
             }
@@ -112,10 +113,12 @@ public class PrincipalActivity extends AppCompatActivity {
         btnVacaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(trabajador != null){
+                    Intent intent = new Intent(getApplicationContext(), VacacionesActivity.class);
+                    intent.putExtra("parametro", trabajador);
+                    startActivity(intent);
 
-                Intent intent = new Intent(getApplicationContext(), VacacionesActivity.class);
-                intent.putExtra("parametro", trabajador);
-                startActivity(intent);
+                }
             }
         });
 

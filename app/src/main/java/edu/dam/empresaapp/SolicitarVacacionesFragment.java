@@ -135,6 +135,5 @@ public class SolicitarVacacionesFragment extends Fragment {
 
         return view;
 
-
     }
 }
