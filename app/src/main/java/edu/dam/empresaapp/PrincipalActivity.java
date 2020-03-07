@@ -107,17 +107,29 @@ public class PrincipalActivity extends AppCompatActivity {
         });
 
 
-        // listener del botón Vacaciones que nos llevará a la Activity
-        // VacacionesActivity y en la que pasaremos
-        // el objeto Trabajador
+        // Listener del botón "Vacaciones" que nos llevará a la Activity
+        // "VacacionesActivity" y en la que pasaremos el objeto Trabajador.
+        // Usamos una estructura "if" porque como estamos pasando el objeto
+        // "trabajador" mediante "putExtra", si pulsamos el botón antes de
+        // hacerse la consulta y de instanciarse el objeto "trabajador",
+        // nos devolvería un "nullpointerexception", porque el objeto aún no
+        // existiría. Si el objeto aún no existe porque la consulta a Firebase
+        // se demora y no se instancia el objeto, ponemos un Toast, y si el
+        // objeto ya existe, al pulsar el botón nos lleva a la Activity
+        // "VacacionesActivity". Pondremos también el "if" en el resto de botones.
         btnVacaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(trabajador != null){
+                if(trabajador == null){
+
+                    Toast.makeText(PrincipalActivity.this,
+                            "Cargando datos...", Toast.LENGTH_SHORT).show();
+
+                } else {
+
                     Intent intent = new Intent(getApplicationContext(), VacacionesActivity.class);
                     intent.putExtra("parametro", trabajador);
                     startActivity(intent);
-
                 }
             }
         });
