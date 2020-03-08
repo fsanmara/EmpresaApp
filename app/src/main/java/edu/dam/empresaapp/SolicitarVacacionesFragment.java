@@ -3,6 +3,7 @@ package edu.dam.empresaapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,9 @@ public class SolicitarVacacionesFragment extends Fragment {
     RadioButton rbtnSi, rbtnNo;
 
     DatabaseReference db, db2;
+
+    Vacaciones vacaciones;
+
     String periodos, fechaInicioP1, fechaFinP1, fechaInicioP2, fechaFinP2, idTrabajador, anioVacaciones;
     DatePickerDialog datePickerDialog;
     int year, month, dayOfMonth, resultadoP1, resultadoP2, resultadoTotal;
@@ -349,13 +353,28 @@ public class SolicitarVacacionesFragment extends Fragment {
                             db2.child("fecha_fin_periodo1").setValue(fechaFinP1);
                             db2.child("fecha_inicio_periodo2").setValue("");
                             db2.child("fecha_fin_periodo2").setValue("");
-                            db2.child("estado_vacaciones").setValue("pendiente");
+                            db2.child("estado_vacaciones").setValue("pendiente_confirmacion");
 
                             Toast.makeText(getContext(),
                                     "Propuesta enviada. En breve recibirá una respuesta.",
                                     Toast.LENGTH_LONG).show();
 
-                            
+
+                            //Creamos un objeto "Vacaciones"
+                              vacaciones = new Vacaciones(
+                                      idTrabajador,
+                                      anioVacaciones,
+                                      periodos,
+                                      fechaInicioP1,
+                                      fechaFinP1,
+                                      "",
+                                      "",
+                                      "pendiente");
+
+                            Intent intent = new Intent(getContext(), VacacionesActivity.class);
+                            intent.putExtra("VACACIONES", vacaciones);
+
+                            Objects.requireNonNull(getActivity()).onBackPressed(); //cerramos el fragment
 
                         }
                     }
@@ -454,11 +473,27 @@ public class SolicitarVacacionesFragment extends Fragment {
                                 db2.child("fecha_fin_periodo1").setValue(fechaFinP1);
                                 db2.child("fecha_inicio_periodo2").setValue(fechaInicioP2);
                                 db2.child("fecha_fin_periodo2").setValue(fechaFinP2);
-                                db2.child("estado_vacaciones").setValue("pendiente");
+                                db2.child("estado_vacaciones").setValue("pendiente_confirmacion");
 
                                 Toast.makeText(getContext(),
                                         "Propuesta enviada. En breve recibirá una respuesta.",
                                         Toast.LENGTH_LONG).show();
+
+                                //Creamos un objeto "Vacaciones"
+                                vacaciones = new Vacaciones(
+                                        idTrabajador,
+                                        anioVacaciones,
+                                        periodos,
+                                        fechaInicioP1,
+                                        fechaFinP1,
+                                        fechaInicioP2,
+                                        fechaFinP2,
+                                        "pendiente");
+
+                                Intent intent = new Intent(getContext(), VacacionesActivity.class);
+                                intent.putExtra("VACACIONES", vacaciones);
+
+                                Objects.requireNonNull(getActivity()).onBackPressed(); // cerramos el fragment
 
                             }
                         }
@@ -467,13 +502,24 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 }
 
-
             } // onclick del botón "enviar"
 
         });
 
 
+
+        /*if(vacaciones != null) {
+
+            if(vacaciones.getEstadoVacaciones().equals("pendiente")) {
+
+                getFragmentManager().beginTransaction().remove(this).commit();
+            }
+
+        }*/
+
         return view;
+
+
 
     }
 }

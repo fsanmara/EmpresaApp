@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,13 +21,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class VacacionesActivity extends AppCompatActivity {
 
     //declaramos vistas
     TextView tvNombreTrabajador;
     CardView cardSolicVacac, cardConsultVacac, cardConsultEstado;
 
-    String idTrabajador;
+    String idTrabajador, estadoVacaciones;
+    Boolean aBoolean;
+
+    DatabaseReference db;
 
     //Instanciamos un objeto de los fragments
     SolicitarVacacionesFragment svf = new SolicitarVacacionesFragment();
@@ -42,6 +50,9 @@ public class VacacionesActivity extends AppCompatActivity {
         cardSolicVacac     = findViewById(R.id.cardSolicVacac);
         cardConsultEstado  = findViewById(R.id.cardConsultEstado);
         cardConsultVacac   = findViewById(R.id.cardConsultVacac);
+
+        // creamos la referencia a la BBDD
+        db = FirebaseDatabase.getInstance().getReference();
 
 
         // creamos un objeto "Trabajador", cuyo contenido será el objeto
@@ -59,6 +70,36 @@ public class VacacionesActivity extends AppCompatActivity {
         cardSolicVacac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // consultamos en la BBDD si la propuesta de vacaciones
+                // tiene el estado "pendiente_confirmacion". Como tenemos
+                // que consultar el año, lo obtenemos del sistema
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+                Date date = new Date();
+                String anio = dateFormat.format(date);
+                Log.d("año", anio);
+
+                db.child("Vacaciones").child(idTrabajador).child(anio).child("estado_vacaciones").
+                        addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        estadoVacaciones = dataSnapshot.getValue().toString();
+
+                        Log.d("estado", estadoVacaciones);
+
+                        if(estadoVacaciones.equals("pendiente_confirmacion")){
+
+                            aBoolean = true;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
                 // mediante un Bundle le pasamos al fragment
                 // el "id" del usuario

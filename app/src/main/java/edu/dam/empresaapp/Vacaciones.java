@@ -1,6 +1,9 @@
 package edu.dam.empresaapp;
 
-public class Vacaciones {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Vacaciones implements Parcelable {
 
     private String idTrabajador;
     private String anioVacaciones;
@@ -27,6 +30,29 @@ public class Vacaciones {
         this.fechaFinPeriodo2 = fechaFinPeriodo2;
         this.estadoVacaciones = estadoVacaciones;
     }
+
+    protected Vacaciones(Parcel in) {
+        idTrabajador = in.readString();
+        anioVacaciones = in.readString();
+        numeroPeriodos = in.readString();
+        fechaInicioPeriodo1 = in.readString();
+        fechaFinPeriodo1 = in.readString();
+        fechaInicioPeriodo2 = in.readString();
+        fechaFinPeriodo2 = in.readString();
+        estadoVacaciones = in.readString();
+    }
+
+    public static final Creator<Vacaciones> CREATOR = new Creator<Vacaciones>() {
+        @Override
+        public Vacaciones createFromParcel(Parcel in) {
+            return new Vacaciones(in);
+        }
+
+        @Override
+        public Vacaciones[] newArray(int size) {
+            return new Vacaciones[size];
+        }
+    };
 
     public String getIdTrabajador() {
         return idTrabajador;
@@ -90,5 +116,22 @@ public class Vacaciones {
 
     public void setEstadoVacaciones(String estadoVacaciones) {
         this.estadoVacaciones = estadoVacaciones;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idTrabajador);
+        dest.writeString(anioVacaciones);
+        dest.writeString(numeroPeriodos);
+        dest.writeString(fechaInicioPeriodo1);
+        dest.writeString(fechaFinPeriodo1);
+        dest.writeString(fechaInicioPeriodo2);
+        dest.writeString(fechaFinPeriodo2);
+        dest.writeString(estadoVacaciones);
     }
 }
