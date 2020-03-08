@@ -26,6 +26,8 @@ public class VacacionesActivity extends AppCompatActivity {
     TextView tvNombreTrabajador;
     CardView cardSolicVacac, cardConsultVacac, cardConsultEstado;
 
+    String idTrabajador;
+
     //Instanciamos un objeto de los fragments
     SolicitarVacacionesFragment svf = new SolicitarVacacionesFragment();
 
@@ -48,12 +50,21 @@ public class VacacionesActivity extends AppCompatActivity {
         Trabajador trabajador = new Trabajador();
         trabajador = getIntent().getParcelableExtra("parametro");
 
+        // guardamos el "id" del Trabajador para pasárselo al fragment
+        idTrabajador = trabajador.getId();
+
         //Mostramos el nombre del trabajador en un TextView
         tvNombreTrabajador.setText(trabajador.getNombre() + " " + trabajador.getApellido1());
 
         cardSolicVacac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // mediante un Bundle le pasamos al fragment
+                // el "id" del usuario
+                Bundle bundle = new Bundle();
+                bundle.putString("ID", idTrabajador);
+                svf.setArguments(bundle);
 
                 // al pulsar en el CardView de "solicitar vacaciones", iniciamos
                 // la transición del Fragment, reemplazando el layout de la Activity

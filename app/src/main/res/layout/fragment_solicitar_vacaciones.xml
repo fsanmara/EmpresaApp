@@ -70,6 +70,13 @@
             android:focusable="true"
             android:hint="@string/Fecha_fin" />
 
+        <TextView
+            android:id="@+id/tvDiasP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -102,6 +109,13 @@
             android:clickable="true"
             android:focusable="true"
             android:hint="@string/Fecha_fin" />
+
+        <TextView
+            android:id="@+id/tvDiasP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
