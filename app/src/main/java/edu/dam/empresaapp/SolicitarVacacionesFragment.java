@@ -275,6 +275,8 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 } else {
 
+                    if (periodos.equals("1")) {
+
                     //introducimos una validación para que
                     //las fechas de inicio y fin no estén vacías
                     if (TextUtils.isEmpty(fechaInicioP1)) {
@@ -317,6 +319,45 @@ public class SolicitarVacacionesFragment extends Fragment {
                                     "de inicio del periodo 1", Toast.LENGTH_LONG).show();
                         }
 
+                    }
+
+                        diffTimeP1 = endTimeP1 - startTimeP1;
+                        resultadoP1 = (int) TimeUnit.DAYS.convert(diffTimeP1, TimeUnit.MILLISECONDS) + 1;
+                        tvDiasP1.setVisibility(View.VISIBLE);
+                        tvDiasP1.setText(resultadoP1 + " días");
+
+                        if (resultadoP1 != 30) {
+
+                            Toast.makeText(getContext(), "Ha escogido " + resultadoP1 +
+                                    " días. " + "Debe escoger un total de 30 días.",
+                                    Toast.LENGTH_LONG).show();
+
+                        } else {
+
+                            // cuando el periodo seleccionado es de 30 días, añadimos
+                            // la información a Firebase
+                            anioVacaciones = String.valueOf(calendar.get(Calendar.YEAR));
+
+                            db.child(idTrabajador).child(anioVacaciones)
+                                    .child("numero_periodos").setValue(periodos);
+
+                            db2 = FirebaseDatabase.getInstance().
+                                    getReference().child("Vacaciones")
+                                    .child(idTrabajador).child(anioVacaciones);
+
+                            db2.child("fecha_inicio_periodo1").setValue(fechaInicioP1);
+                            db2.child("fecha_fin_periodo1").setValue(fechaFinP1);
+                            db2.child("fecha_inicio_periodo2").setValue("");
+                            db2.child("fecha_fin_periodo2").setValue("");
+                            db2.child("estado_vacaciones").setValue("pendiente");
+
+                            Toast.makeText(getContext(),
+                                    "Propuesta enviada. En breve recibirá una respuesta.",
+                                    Toast.LENGTH_LONG).show();
+
+                            
+
+                        }
                     }
 
                     // si el usuario no ha seleccionado dos periodos de vacaciones
