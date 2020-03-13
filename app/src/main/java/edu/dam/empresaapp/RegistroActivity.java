@@ -35,7 +35,7 @@ public class RegistroActivity extends AppCompatActivity {
     // Declaramos la variable Booleana "esResponsable", y le asignamos
     // false, ya que todos los trabajadores por defecto no serán responsables,
     // solo habrá un usuario que será responsable
-    Boolean esResponsable = false;
+    private Boolean esResponsable = false;
 
     // nos valemos de la funcionalidad "Firebase Authentication" de Firebase,
     // la cual nos permite crear usuarios que utilizan sus direcciones de correo

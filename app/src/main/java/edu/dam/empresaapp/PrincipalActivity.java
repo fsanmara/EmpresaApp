@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PrincipalActivity extends AppCompatActivity {
 
-    String nombre, apellido1, apellido2, nif, email, telefono, id, formateado;
-    Boolean esResponsable;
-    Trabajador trabajador;
+    private String nombre, apellido1, apellido2, nif, email, telefono, id, formateado;
+    private Boolean esResponsable;
+    private Trabajador trabajador;
+
+    private ProgressBar progressBar;
 
     //declaramos vistas
-    TextView tvNombreTrabajador;
-    Button btnVacaciones, btnTurnos, btnFichajes;
+    private TextView tvNombreTrabajador;
+    private Button btnVacaciones, btnTurnos, btnFichajes;
 
 
     //declaramos objeto Firebase y referencia BBDD
@@ -44,6 +47,7 @@ public class PrincipalActivity extends AppCompatActivity {
         btnVacaciones      = findViewById(R.id.btnVacaciones);
         btnTurnos          = findViewById(R.id.btnTurnos);
         btnFichajes        = findViewById(R.id.btnFichajes);
+        progressBar        = findViewById(R.id.progressbar);
 
 
         //obtenemos la instancia de FirebaseAuth para pasarla como parámetro a la instancia de la BBDD y
@@ -55,10 +59,14 @@ public class PrincipalActivity extends AppCompatActivity {
         // consultamos la BBDD y lo hacemos en un hilo. Con el resultado de la consulta
         // instanciamos un objeto de la clase Trabajador que podremos pasar a otras activitys.
         // Además, mostraremos en un TextView el nombre del usuario que ha iniciado sesión
-        dbTrabajadores.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbTrabajadores.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
+                // mostramos una barra de progreso mientras se cargan los datos
+                if (progressBar != null) {
+                    progressBar.setVisibility(View.GONE);
+                }
                 //new Thread(new Runnable() {
                     //@Override
                     //public void run() {

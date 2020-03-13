@@ -1,13 +1,10 @@
 package edu.dam.empresaapp;
 
-import android.app.AlertDialog;
+
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,8 +24,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -42,20 +38,20 @@ public class SolicitarVacacionesFragment extends Fragment {
     }
 
     // declaramos vistas
-    TextView tvFechaInicioP1, tvFechaFinP1, tvFechaInicioP2, tvFechaFinP2, txtPeriodo2, tvDiasP1, tvDiasP2;
-    Button btnEnviar;
-    RadioButton rbtnSi, rbtnNo;
+    private TextView tvFechaInicioP1, tvFechaFinP1, tvFechaInicioP2, tvFechaFinP2, txtPeriodo2, tvDiasP1, tvDiasP2;
+    private Button btnEnviar;
+    private RadioButton rbtnSi, rbtnNo;
 
-    DatabaseReference db, db2;
+    private DatabaseReference db, db2;
 
-    Vacaciones vacaciones;
+    private Vacaciones vacaciones;
 
-    String periodos, fechaInicioP1, fechaFinP1, fechaInicioP2, fechaFinP2, idTrabajador, anioVacaciones;
-    DatePickerDialog datePickerDialog;
-    int year, month, dayOfMonth, resultadoP1, resultadoP2, resultadoTotal;
-    Calendar calendar;
-    Date startDateP1, endDateP1, startDateP2, endDateP2;
-    long startTimeP1, endTimeP1, startTimeP2, endTimeP2, diffTimeP1, diffTimeP2;
+    private String periodos, fechaInicioP1, fechaFinP1, fechaInicioP2, fechaFinP2, idTrabajador, anioVacaciones;
+    private DatePickerDialog datePickerDialog;
+    private int year, month, dayOfMonth, resultadoP1, resultadoP2, resultadoTotal;
+    private Calendar calendar;
+    private Date startDateP1, endDateP1, startDateP2, endDateP2;
+    private long startTimeP1, endTimeP1, startTimeP2, endTimeP2, diffTimeP1, diffTimeP2;
 
 
     @Override
@@ -379,10 +375,50 @@ public class SolicitarVacacionesFragment extends Fragment {
                         }
                     }
 
-                    // si el usuario no ha seleccionado dos periodos de vacaciones
-                    // no se comprobaría si las fechas de inicio y fin
-                    // del segundo periodo están vacías
                     if (periodos.equals("2")) {
+                        //introducimos una validación para que
+                        //las fechas de inicio y fin no estén vacías
+                        if (TextUtils.isEmpty(fechaInicioP1)) {
+                            Toast.makeText(getContext(),
+                                    "introduzca una fecha de inicio del primer periodo",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+
+                            try {
+                                startDateP1 = formatter.parse(fechaInicioP1);
+                                startTimeP1 = startDateP1.getTime();
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        if (TextUtils.isEmpty(fechaFinP1)) {
+                            Toast.makeText(getContext(),
+                                    "introduzca una fecha de fin del primer periodo",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+
+                            try {
+                                endDateP1 = formatter.parse(fechaFinP1);
+                                endTimeP1 = endDateP1.getTime();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            // Comprobamos que la fecha de fin del periodo 1 tiene que ser superior
+                            // a la fecha de inicio del periodo 1. Hacemos esta validación para que
+                            // el usuario no seleccione una fecha de fin de vacaciones anterior a la
+                            // fecha de inicio de las vacaciones
+                            if (endTimeP1 <= startTimeP1) {
+
+                                Toast.makeText(getContext(), "la fecha de fin del" +
+                                        " periodo 1 tiene que ser superior a la fecha " +
+                                        "de inicio del periodo 1", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
                         if (TextUtils.isEmpty(fechaInicioP2)) {
                             Toast.makeText(getContext(),
                                     "introduzca una fecha de inicio del segundo periodo",
@@ -449,6 +485,7 @@ public class SolicitarVacacionesFragment extends Fragment {
                             tvDiasP1.setText(resultadoP1 + " días");
                             tvDiasP2.setText(resultadoP2 + " días");
 
+
                             if (resultadoTotal != 30) {
 
                                 Toast.makeText(getContext(), "Ha escogido " + resultadoP1 +
@@ -507,18 +544,7 @@ public class SolicitarVacacionesFragment extends Fragment {
         });
 
 
-
-        /*if(vacaciones != null) {
-
-            if(vacaciones.getEstadoVacaciones().equals("pendiente")) {
-
-                getFragmentManager().beginTransaction().remove(this).commit();
-            }
-
-        }*/
-
         return view;
-
 
 
     }

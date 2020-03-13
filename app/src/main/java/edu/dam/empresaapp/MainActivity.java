@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         txtClave      = findViewById(R.id.txtContraseña);
         btnLogin      = findViewById(R.id.btnLogin);
         progressBar   = findViewById(R.id.loginProgressbar);
+
         progressBar.setVisibility(View.GONE);
 
         //obtenemos la instancia del objeto FirebaseAuth

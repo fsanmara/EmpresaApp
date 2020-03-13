@@ -33,11 +33,12 @@ public class VacacionesActivity extends AppCompatActivity {
     TextView tvNombreTrabajador;
     CardView cardSolicVacac, cardConsultVacac, cardConsultEstado;
 
-    String idTrabajador, estadoVacaciones, anio;
+    String idTrabajador, anio;
 
     Vacaciones vacaciones;
 
     DatabaseReference db;
+
 
     //Instanciamos un objeto de los fragments
     SolicitarVacacionesFragment svf = new SolicitarVacacionesFragment();
@@ -56,7 +57,7 @@ public class VacacionesActivity extends AppCompatActivity {
         cardConsultVacac   = findViewById(R.id.cardConsultVacac);
 
         // creamos la referencia a la BBDD
-        db = FirebaseDatabase.getInstance().getReference();
+        db = FirebaseDatabase.getInstance().getReference().child("Vacaciones");
 
 
         // creamos un objeto "Trabajador", cuyo contenido será el objeto
@@ -71,80 +72,59 @@ public class VacacionesActivity extends AppCompatActivity {
         //Mostramos el nombre del trabajador en un TextView
         tvNombreTrabajador.setText(trabajador.getNombre() + " " + trabajador.getApellido1());
 
-        // consultamos en la BBDD si la propuesta de vacaciones
-        // tiene el estado "pendiente_confirmacion". Como tenemos
-        // que consultar el año, lo obtenemos del sistema
+        // Como tenemos que consultar el año, lo obtenemos del sistema.
+        // El trabajador consultará el estado de sus vacaciones en el
+        // año natural
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
         Date date = new Date();
         anio = dateFormat.format(date);
         Log.d("año", anio);
 
+        // listener del botón "Solicitar Vacaciones"
         cardSolicVacac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // consultamos en la BBDD si la propuesta de vacaciones
-                // tiene el estado "pendiente_confirmacion". Como tenemos
-                // que consultar el año, lo obtenemos del sistema
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
-                Date date = new Date();
-                anio = dateFormat.format(date);
-                Log.d("año", anio);
-
-                db.child("Vacaciones").
-                        addValueEventListener(new ValueEventListener() {
+                //consultamos en la BBDD si la propuesta de vacaciones
+                // del trabajador logueado tiene el estado "pendiente_confirmacion" o
+                // el estado "aceptadas". En estos dos casos no se permitirá que el
+                // usuario solicite vacaciones
+                db.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                String id = dataSnapshot.child(idTrabajador).getKey();
-                                String anios = dataSnapshot.child(idTrabajador).child(anio).getKey();
-                                String periodos = dataSnapshot.child(idTrabajador).child(anio).child("numero_periodos").
-                                        getValue().toString().trim();
-                                String fechaInicioP1 = dataSnapshot.child(idTrabajador).child(anio).child("fecha_inicio_periodo1").
-                                        getValue().toString().trim();
-                                String fechaFinP1 = dataSnapshot.child(idTrabajador).child(anio).child("fecha_fin_periodo1").
-                                        getValue().toString().trim();
-                                String fechaInicioP2 = dataSnapshot.child(idTrabajador).child(anio).child("fecha_inicio_periodo2").
-                                        getValue().toString().trim();
-                                String fechaFinP2 = dataSnapshot.child(idTrabajador).child(anio).child("fecha_fin_periodo2").
-                                        getValue().toString().trim();
-                                String estadoVacaciones = dataSnapshot.child(idTrabajador).child(anio).child("estado_vacaciones").
-                                        getValue().toString().trim();
+                                String estadoVacaciones = dataSnapshot.child(idTrabajador).
+                                        child(anio).child("estado_vacaciones").getValue().toString();
 
-                                //Creamos un objeto "Vacaciones"
-                                vacaciones = new Vacaciones(
-                                        id,
-                                        anios,
-                                        periodos,
-                                        fechaInicioP1,
-                                        fechaFinP1,
-                                        fechaInicioP2,
-                                        fechaFinP2,
-                                        estadoVacaciones);
-
-                                if (vacaciones.getEstadoVacaciones().equals("pendiente_confirmacion")) {
+                                if (estadoVacaciones.equals("pendiente_confirmacion")) {
 
                                     Toast.makeText(VacacionesActivity.this,
                                             "Sus vacaciones están pendientes de aceptación",
                                             Toast.LENGTH_SHORT).show();
+
+                                } else if (estadoVacaciones.equals("aceptadas")) {
+
+                                    Toast.makeText(VacacionesActivity.this,
+                                            "Sus vacaciones están aceptadas",
+                                            Toast.LENGTH_SHORT).show();
                                 } else {
-                                    // mediante un Bundle le pasamos al fragment
+                                    // en el caso de que las vacaciones no estén
+                                    // ni aceptadas ni rechazadas, mediante un Bundle
+                                    // le pasamos al fragment "SolicitarVacacionesFragment"
                                     // el "id" del usuario
                                     Bundle bundle = new Bundle();
                                     bundle.putString("ID", idTrabajador);
                                     svf.setArguments(bundle);
 
-                                    // al pulsar en el CardView de "solicitar vacaciones", iniciamos
-                                    // la transición del Fragment, reemplazando el layout de la Activity
-                                    // por el layout del Fragment "SolicitarVacacionesFragment"
+                                    // iniciamos la transición del Fragment, reemplazando el
+                                    // layout de la Activity por el layout del Fragment
+                                    // "SolicitarVacacionesFragment"
                                     FragmentManager fm = getSupportFragmentManager();
                                     FragmentTransaction ft = fm.beginTransaction();
                                     ft.replace(R.id.contenedor, svf);
                                     ft.addToBackStack(null);
                                     ft.commit();
+                                    }
                                 }
-                            }
-
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -155,49 +135,72 @@ public class VacacionesActivity extends AppCompatActivity {
             }
         });
 
+        // listener del botón "Consultar Solicitud"
         cardConsultEstado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                db.child("Vacaciones").addValueEventListener(new ValueEventListener() {
+                db.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        Log.d("child", idTrabajador);
-                        Log.d("child", anio);
+                        // Si es la primera vez que el usuario entra a esta Activity
+                        // y pulsa este botón antes de solicitar las vacaciones, la
+                        // aplicación devolvería un NullPointerException, ya que el
+                        // "id_trabajador" del usuario logueado aún no se habría
+                        //  creado en la colección "Vacaciones" de la BBDD. Así que
+                        // mediante un "if" comprobamos que el nodo exista en la BBDD
+                        if (dataSnapshot.child(idTrabajador).child(anio).exists()) {
 
+                            // consultamos la BBDD para ver el estado de la solicitud
+                            String estadoVacaciones = dataSnapshot.child(idTrabajador).child(anio).
+                                    child("estado_vacaciones").getValue().toString();
 
+                            // mostramos un ventana de diálogo
+                            AlertDialog.Builder ventana = new AlertDialog.Builder(VacacionesActivity.this);
 
-                        String estado = dataSnapshot.child(idTrabajador).child(anio).child("estado_vacaciones").getValue().toString();
-
-                        /*Toast.makeText(VacacionesActivity.this, estado,
-                                Toast.LENGTH_SHORT).show();*/
-
-                        AlertDialog.Builder ventana = new AlertDialog.Builder(VacacionesActivity.this);
-
-                        ventana.setTitle("Mensaje");
-                        if(estado.equals("pendiente_confirmacion")){
-                        ventana.setMessage("Su solicitud se encuentra pendiente de confirmación");}
-
-                        if(estado.equals("aceptadas")){
-                            ventana.setMessage("Su solicitud ha sido aceptada");}
-
-                        if(estado.equals("rechazadas")){
-                            ventana.setMessage("Su solicitud ha sido rechazada");}
-
-
-                        // solo mostramos el botón "Aceptar"
-                        ventana.setPositiveButton("Continuar", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                dialog.cancel();
+                            ventana.setTitle("Mensaje");
+                            if (estadoVacaciones.equals("pendiente_confirmacion")) {
+                                ventana.setMessage("Su solicitud se encuentra pendiente de confirmación");
                             }
-                        });
 
-                        AlertDialog alert = ventana.create();
-                        alert.show();
+                            if (estadoVacaciones.equals("aceptadas")) {
+                                ventana.setMessage("Su solicitud ha sido aceptada");
+                            }
+
+                            if (estadoVacaciones.equals("rechazadas")) {
+                                ventana.setMessage("Su solicitud ha sido rechazada");
+                            }
+
+                            if ((estadoVacaciones.equals(""))) {
+                                ventana.setMessage("No ha solicitado vacaciones para el año en curso");
+                            }
+
+                            ventana.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                            AlertDialog alert = ventana.create();
+                            alert.show();
+
+                        } else { // si el nodo no existe en la BBDD
+
+                            AlertDialog.Builder ventana = new AlertDialog.Builder(VacacionesActivity.this);
+                            ventana.setTitle("Mensaje");
+                            ventana.setMessage("No ha solicitado vacaciones para el año en curso");
+                            ventana.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                            AlertDialog alert = ventana.create();
+                            alert.show();
+                        }
                     }
 
                     @Override
@@ -205,6 +208,30 @@ public class VacacionesActivity extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+
+        // listener del botón "Consultar Vacaciones"
+        cardConsultVacac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Mediante un Bundle le pasamos al fragment
+                // "ConsultarVacacionesFragment" el "id" del usuario
+                // y el "año"
+                Bundle bundle = new Bundle();
+                bundle.putString("ID", idTrabajador);
+                bundle.putString("ANIO", anio);
+                cvf.setArguments(bundle);
+
+                // iniciamos la transición del Fragment, reemplazando el
+                // layout de la Activity por el layout del Fragment
+                // "ConsultarVacacionesFragment"
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.contenedor, cvf);
+                ft.addToBackStack(null);
+                ft.commit();
             }
         });
 
