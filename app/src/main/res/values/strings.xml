@@ -34,8 +34,17 @@
     <string name="Periodo_2">Periodo 2</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
+    <string name="info">Info</string>
+    <string name="administrar">Administrar</string>
+    <string name="gestionar_vacaciones">Gestionar vacaciones</string>
+    <string name="administrar_turnos">Administrar turnos</string>
+    <string name="control_horario">Control horario</string>
+    <string name="gestione_vacaciones">Gestione las vacaciones de los empleados</string>
+    <string name="administre_turnos">Gestione los turnos de los empleados</string>
+    <string name="gestion_horarios">Control de los horarios de los empleados</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

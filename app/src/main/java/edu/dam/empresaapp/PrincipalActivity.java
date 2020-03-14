@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +32,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
     //declaramos vistas
     private TextView tvNombreTrabajador;
-    private Button btnVacaciones, btnTurnos, btnFichajes;
+    private Button btnVacaciones, btnTurnos, btnFichajes, btnInfo, btnAdministrar;
 
 
     //declaramos objeto Firebase y referencia BBDD
@@ -47,8 +49,9 @@ public class PrincipalActivity extends AppCompatActivity {
         btnVacaciones      = findViewById(R.id.btnVacaciones);
         btnTurnos          = findViewById(R.id.btnTurnos);
         btnFichajes        = findViewById(R.id.btnFichajes);
+        btnInfo            = findViewById(R.id.btnInfo);
+        btnAdministrar     = findViewById(R.id.btnAdministrar);
         progressBar        = findViewById(R.id.progressbar);
-
 
         //obtenemos la instancia de FirebaseAuth para pasarla como parámetro a la instancia de la BBDD y
         //obtener la referencia del "hijo" de "trabajadores" que esté logueado en ese momento
@@ -56,7 +59,7 @@ public class PrincipalActivity extends AppCompatActivity {
         dbTrabajadores = FirebaseDatabase.getInstance().getReference().child("Trabajadores").child(mAuth.getUid());
 
 
-        // consultamos la BBDD y lo hacemos en un hilo. Con el resultado de la consulta
+        // Consultamos la BBDD. Con el resultado de la consulta
         // instanciamos un objeto de la clase Trabajador que podremos pasar a otras activitys.
         // Además, mostraremos en un TextView el nombre del usuario que ha iniciado sesión
         dbTrabajadores.addValueEventListener(new ValueEventListener() {
@@ -99,6 +102,15 @@ public class PrincipalActivity extends AppCompatActivity {
 
 
                                 tvNombreTrabajador.setText(formateado);
+
+
+                // Si el trabajador es, además, el responsable
+                // hacemos visible el floating action button
+                // que le permitirá gestionar sus tareas, como la
+                // asignación de turnos y la gestión de las vacaciones
+                if(trabajador.getEsResponsable()){
+
+                            btnAdministrar.setVisibility(View.VISIBLE);}
                            // }
                         //});
 
@@ -141,6 +153,42 @@ public class PrincipalActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // listener del botón "Turnos"
+        btnTurnos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // listener del botón "Fichajes"
+        btnFichajes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // listener del botón "info" de la empresa
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // listener del botón del responsable
+            btnAdministrar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), AdministrarActivity.class);
+                startActivity(intent);
+                }
+            });
+
+
 
     }
 }
