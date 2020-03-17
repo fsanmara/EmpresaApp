@@ -30,10 +30,10 @@ import java.util.Locale;
 public class VacacionesActivity extends AppCompatActivity {
 
     //declaramos vistas
-    TextView tvNombreTrabajador;
-    CardView cardSolicVacac, cardConsultVacac, cardConsultEstado;
+    private TextView tvNombreTrabajador;
+    private CardView cardSolicVacac, cardConsultVacac, cardConsultEstado;
 
-    String idTrabajador, anio;
+    private String idTrabajador, anio;
 
     Vacaciones vacaciones;
 
@@ -92,21 +92,23 @@ public class VacacionesActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                String estadoVacaciones = dataSnapshot.child(idTrabajador).
-                                        child(anio).child("estado_vacaciones").getValue().toString();
+                                if (dataSnapshot.child(idTrabajador).child(anio).exists()) { // si el nodo existe
+                                    String estadoVacaciones = dataSnapshot.child(idTrabajador).
+                                            child(anio).child("estado_vacaciones").getValue().toString();
 
-                                if (estadoVacaciones.equals("pendiente_confirmacion")) {
+                                    if (estadoVacaciones.equals("pendiente_confirmacion")) {
 
-                                    Toast.makeText(VacacionesActivity.this,
-                                            "Sus vacaciones están pendientes de aceptación",
-                                            Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(VacacionesActivity.this,
+                                                "Sus vacaciones están pendientes de aceptación",
+                                                Toast.LENGTH_SHORT).show();
 
-                                } else if (estadoVacaciones.equals("aceptadas")) {
+                                    } else if (estadoVacaciones.equals("aceptadas")) {
 
-                                    Toast.makeText(VacacionesActivity.this,
-                                            "Sus vacaciones están aceptadas",
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
+                                        Toast.makeText(VacacionesActivity.this,
+                                                "Sus vacaciones están aceptadas",
+                                                Toast.LENGTH_SHORT).show(); }
+
+                                } else { // si no existe el nodo y
                                     // en el caso de que las vacaciones no estén
                                     // ni aceptadas ni rechazadas, mediante un Bundle
                                     // le pasamos al fragment "SolicitarVacacionesFragment"
@@ -238,7 +240,7 @@ public class VacacionesActivity extends AppCompatActivity {
     }
 
     //método que al pulsar en el ImageView (flecha) de la cabecera
-    //nos lleva a la pantalla anterior
+    // y el cardview de volver nos lleva a la pantalla anterior
     public void volver(View view) {
             Intent intent = new Intent(getApplicationContext(), PrincipalActivity.class);
             startActivity(intent);

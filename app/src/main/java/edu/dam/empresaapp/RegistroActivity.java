@@ -169,6 +169,7 @@ public class RegistroActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             Trabajador trabajador = new Trabajador(
+                                    FirebaseAuth.getInstance().getCurrentUser().getUid(), //el uid del usuario
                                     email,
                                     nif,
                                     nombre,

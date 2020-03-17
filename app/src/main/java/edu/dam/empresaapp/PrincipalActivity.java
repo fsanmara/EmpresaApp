@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -105,8 +107,8 @@ public class PrincipalActivity extends AppCompatActivity {
 
 
                 // Si el trabajador es, además, el responsable
-                // hacemos visible el floating action button
-                // que le permitirá gestionar sus tareas, como la
+                // hacemos visible el botón "Administrar" que
+                // le permitirá gestionar sus tareas, como la
                 // asignación de turnos y la gestión de las vacaciones
                 if(trabajador.getEsResponsable()){
 
@@ -184,6 +186,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), AdministrarActivity.class);
+                intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
                 startActivity(intent);
                 }
             });

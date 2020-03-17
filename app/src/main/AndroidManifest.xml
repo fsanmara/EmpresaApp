@@ -9,10 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdministrarActivity"></activity>
+        <activity android:name=".AdministrarTurnosActivity"></activity>
+        <activity android:name=".GestionSolicitudesActivity" />
+        <activity android:name=".GestionarVacacionesActivity" />
+        <activity android:name=".AdministrarActivity" />
         <activity
             android:name=".VacacionesActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".PrincipalActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".MainActivity">

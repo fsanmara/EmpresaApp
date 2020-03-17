@@ -17,7 +17,7 @@ public class Trabajador implements Parcelable {
     public Trabajador() {
     }
 
-    // este constructor solo se usará para el registro inicial del usuario
+    /*// este constructor solo se usará para el registro inicial del usuario
     public Trabajador(String email, String nif, String nombre, String apellido1, String apellido2, String telefono, Boolean esResponsable) {
         this.email = email;
         this.nif = nif;
@@ -26,7 +26,7 @@ public class Trabajador implements Parcelable {
         this.apellido2 = apellido2;
         this.telefono = telefono;
         this.esResponsable = esResponsable;
-    }
+    }*/
 
     public Trabajador(String id, String email, String nif, String nombre, String apellido1, String apellido2, String telefono, Boolean esResponsable) {
         this.id = id;
@@ -142,6 +142,21 @@ public class Trabajador implements Parcelable {
         dest.writeString(telefono);
         dest.writeString(id);
         dest.writeByte((byte) (esResponsable == null ? 0 : esResponsable ? 1 : 2));
+    }
+
+
+    @Override
+    public String toString() {
+        return "Trabajador{" +
+                "email='" + email + '\'' +
+                ", nif='" + nif + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido1='" + apellido1 + '\'' +
+                ", apellido2='" + apellido2 + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", id='" + id + '\'' +
+                ", esResponsable=" + esResponsable +
+                '}';
     }
 }
 

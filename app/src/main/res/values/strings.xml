@@ -42,6 +42,12 @@
     <string name="gestione_vacaciones">Gestione las vacaciones de los empleados</string>
     <string name="administre_turnos">Gestione los turnos de los empleados</string>
     <string name="gestion_horarios">Control de los horarios de los empleados</string>
+    <string name="gestion_solicitudes">Gestión de solicitudes</string>
+    <string name="aceptar_rechazar">Aceptar o rechazar solicitudes</string>
+    <string name="listar_solicitudes">Listar solicitudes</string>
+    <string name="listar_solicitudes_aceptadas">Ver las solicitudes aceptadas</string>
+    <string name="texto_pantalla_supervisor">Propuestas pendientes de revisar</string>
+    <string name="seleccione_trabajador">Seleccione un empleado</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
