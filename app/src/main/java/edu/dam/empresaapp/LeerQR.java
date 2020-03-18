@@ -10,11 +10,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class LeerQR extends AppCompatActivity implements ZBarScannerView.ResultHandler {
-    private final static String TAG = "ScannerLog";
+    private String fecha;
+    private String hora;
     private ZBarScannerView mScannerView;
 
     @Override
@@ -47,16 +53,24 @@ public class LeerQR extends AppCompatActivity implements ZBarScannerView.ResultH
     @Override
     public void handleResult(Result rawResult) {
 
-        // mostramos un sonido cuando el QR se lee, además de mostrar el Toast
+        /*// mostramos un sonido cuando el QR se lee, además de mostrar el Toast
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
+            r.play();*/
 
-        } catch (Exception e) {}
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            SimpleDateFormat hourFormat = new SimpleDateFormat("H:mm:ss", Locale.getDefault());
+            Date date = new Date();
+            Date hour = new Date();
+
+            fecha = dateFormat.format(date);
+            hora  = hourFormat.format(hour);
+
+        /*} catch (Exception e) {}*/
 
         Toast.makeText(this, "Contents = " + rawResult.getContents() +
-                ", Format = " + rawResult.getBarcodeFormat().getName(), Toast.LENGTH_SHORT).show();
+                ", Format = " + rawResult.getBarcodeFormat().getName() + " " + fecha + " " + hora, Toast.LENGTH_SHORT).show();
 
         finish(); // cerramos la actividad y volvemos a la pantalla anterior
 
