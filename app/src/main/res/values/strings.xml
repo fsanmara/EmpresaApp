@@ -51,7 +51,7 @@
     <string name="escanear_codigo">Escanear código QR</string>
     <string name="escanee_codigo">Escaneé el código QR</string>
     <string name="listar_fichajes">Listar fichajes</string>
-    <string name="registro_fichajes">Registro de sus fichajes</string>
+    <string name="registro_fichajes">Registro de sus últimos fichajes</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

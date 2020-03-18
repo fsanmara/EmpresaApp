@@ -40,7 +40,8 @@ public class FichajesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), LeerQR.class);
+                Intent intent = new Intent(getApplicationContext(), LeerQRActivity.class);
+                intent.putExtra("parametro", trabajador); //pasamos el objeto mJimenez
                 startActivity(intent);
 
             }

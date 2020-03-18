@@ -63,7 +63,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_compare_arrows_blue_24dp" />
+                    android:src="@drawable/ic_qr_code" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_contacts_blue_24dp" />
+                    android:src="@drawable/ic_list" />
 
                 <TextView
                     android:layout_width="wrap_content"
