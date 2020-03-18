@@ -74,6 +74,7 @@ public class LeerQR extends AppCompatActivity implements ZBarScannerView.ResultH
 
         finish(); // cerramos la actividad y volvemos a la pantalla anterior
 
+
         // If you would like to resume scanning, call this method below:
         // esto es para si queremos seguir leyendo códigos QR
         //mScannerView.resumeCameraPreview(this);
