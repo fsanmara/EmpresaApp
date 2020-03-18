@@ -161,6 +161,16 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(trabajador == null){
+
+                    Toast.makeText(PrincipalActivity.this,
+                            "Cargando datos...", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    //iniciar la activity
+                }
+
             }
         });
 
@@ -169,6 +179,17 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(trabajador == null){
+
+                    Toast.makeText(PrincipalActivity.this,
+                            "Cargando datos...", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Intent intent = new Intent(getApplicationContext(), FichajesActivity.class);
+                    intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
+                    startActivity(intent);
+                }
             }
         });
 
@@ -177,6 +198,15 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(trabajador == null){
+
+                    Toast.makeText(PrincipalActivity.this,
+                            "Cargando datos...", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    // iniciar la activity
+                }
             }
         });
 
@@ -185,9 +215,17 @@ public class PrincipalActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), AdministrarActivity.class);
-                intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
-                startActivity(intent);
+                    if(trabajador == null){
+
+                        Toast.makeText(PrincipalActivity.this,
+                                "Cargando datos...", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), AdministrarActivity.class);
+                        intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
+                        startActivity(intent);
+
+                    }
                 }
             });
 

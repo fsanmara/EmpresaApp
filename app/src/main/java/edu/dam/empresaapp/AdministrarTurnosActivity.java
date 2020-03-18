@@ -72,6 +72,7 @@ public class AdministrarTurnosActivity extends AppCompatActivity {
                                 + " " + trabajador.getNif()
                                 + " " + trabajador.getId(), Toast.LENGTH_SHORT).show();*/
 
+
                 list.add(trabajador);
                 adapter.notifyDataSetChanged();
 
@@ -97,6 +98,8 @@ public class AdministrarTurnosActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     //método que al pulsar en el ImageView (flecha) de la cabecera

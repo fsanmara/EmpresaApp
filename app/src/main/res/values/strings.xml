@@ -25,7 +25,7 @@
     <string name="Consultar_solicitud">Consultar solicitud</string>
     <string name="Consulte_el_estado_de_su_solicitud">Consulte el estado de su solicitud</string>
     <string name="Volver">Volver</string>
-    <string name="Volver_a_la_pantalla_principal">Volver a la pantalla principal</string>
+    <string name="Volver_a_la_pantalla_principal">Volver a la pantalla anterior</string>
     <string name="disfrutar_vacaciones">¿Disfrutará sus vacaciones en dos periodos?</string>
     <string name="Fecha_inicio">Fecha inicio</string>
     <string name="Fecha_fin">Fecha fin</string>
@@ -48,6 +48,10 @@
     <string name="listar_solicitudes_aceptadas">Ver las solicitudes aceptadas</string>
     <string name="texto_pantalla_supervisor">Propuestas pendientes de revisar</string>
     <string name="seleccione_trabajador">Seleccione un empleado</string>
+    <string name="escanear_codigo">Escanear código QR</string>
+    <string name="escanee_codigo">Escaneé el código QR</string>
+    <string name="listar_fichajes">Listar fichajes</string>
+    <string name="registro_fichajes">Registro de sus fichajes</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
