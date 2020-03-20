@@ -3,7 +3,6 @@ package edu.dam.empresaapp;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -27,16 +26,12 @@ import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class LeerQRActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
-    private String fecha;
-    private String hora;
+    private String fecha, hora, textoEntrada, textoSalida;
     private String idTrabajador;
     private ZBarScannerView mScannerView;
 
     // declaramos la referencia la BBDD
     DatabaseReference db;
-
-    // declaramos un objeto Thread
-    Thread thread;
 
     // declaramos un objeto "trabajador"
     private Trabajador trabajador;
@@ -81,7 +76,7 @@ public class LeerQRActivity extends AppCompatActivity implements ZBarScannerView
     }
 
     @Override
-    public void handleResult(Result rawResult) {
+    public void handleResult(final Result rawResult) {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             SimpleDateFormat hourFormat = new SimpleDateFormat("H:mm:ss", Locale.getDefault());
@@ -100,7 +95,11 @@ public class LeerQRActivity extends AppCompatActivity implements ZBarScannerView
                     // guardamos la hora de entrada en la BBDD
                     if(!dataSnapshot.child(idTrabajador).child(fecha).child("hora_entrada").exists()){
 
+                        // capturamos el contenido del QR
+                        textoEntrada = rawResult.getContents();
+
                         db.child(idTrabajador).child(fecha).child("hora_entrada").setValue(hora);
+                        db.child(idTrabajador).child(fecha).child("texto_entrada").setValue(textoEntrada);
 
                         // mostramos un ventana de diálogo informativa
                         AlertDialog.Builder ventana = new AlertDialog.Builder(LeerQRActivity.this);
@@ -148,7 +147,12 @@ public class LeerQRActivity extends AppCompatActivity implements ZBarScannerView
                     // existe, pero el child "hora_salida" para esa fecha no existe, grabamos
                     // en la BBDD la hora de salida
                     } else if (dataSnapshot.child(idTrabajador).child(fecha).child("hora_entrada").exists()){
-                    db.child(idTrabajador).child(fecha).child("hora_salida").setValue(hora);
+
+                        // capturamos el contenido del QR
+                        textoSalida = rawResult.getContents();
+
+                        db.child(idTrabajador).child(fecha).child("hora_salida").setValue(hora);
+                        db.child(idTrabajador).child(fecha).child("texto_salida").setValue(textoSalida);
 
                         // mostramos un ventana de diálogo informativa
                         AlertDialog.Builder ventana = new AlertDialog.Builder(LeerQRActivity.this);
@@ -180,7 +184,7 @@ public class LeerQRActivity extends AppCompatActivity implements ZBarScannerView
 
 
         // If you would like to resume scanning, call this method below:
-        // esto es por si queremos seguir leyendo códigos QR
+        // esto es por si queremos seguir leyendo códigos QR uno tras otro
         //mScannerView.resumeCameraPreview(this);
     }
 }

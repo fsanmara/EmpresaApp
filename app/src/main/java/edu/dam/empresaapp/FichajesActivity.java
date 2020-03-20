@@ -41,15 +41,25 @@ public class FichajesActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), LeerQRActivity.class);
-                intent.putExtra("parametro", trabajador); //pasamos el objeto mJimenez
+                intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
+                startActivity(intent);
+
+            }
+        });
+
+        // botón que muestra los últimos registros de entrada y salida del trabajador
+        cardListarFichajes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), ListarFichajesUsuarioActivity.class);
+                intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
                 startActivity(intent);
 
             }
         });
 
     }
-
-
 
     public void volver(View view) {
         Intent intent = new Intent(getApplicationContext(), PrincipalActivity.class);

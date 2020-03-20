@@ -11,8 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LeerQRActivity"></activity>
-        <activity android:name=".FichajesActivity"></activity>
+        <activity android:name=".ListarFichajesUsuarioActivity"></activity>
+        <activity android:name=".LeerQRActivity" />
+        <activity android:name=".FichajesActivity" />
         <activity android:name=".AdministrarTurnosActivity" />
         <activity android:name=".GestionSolicitudesActivity" />
         <activity android:name=".GestionarVacacionesActivity" />
