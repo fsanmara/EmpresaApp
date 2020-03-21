@@ -4,17 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,21 +26,31 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-public class GestionSolicitudesActivity extends AppCompatActivity {
+import edu.dam.empresaapp.adaptadores.AdaptadorSolicitudes;
+
+public class GestionSolicitudesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     private TextView tvNombreTrabajador;
-    private String anio, id;
+    private String anio, fechaInicioPeriodo1, fechaFinPeriodo1, fechaInicioPeriodo2, fechaFinPeriodo2, numeroPeriodos;
     private ListView lvTrabajadores;
+    private AdaptadorSolicitudes adaptador;
 
     // referenciamos la BBDD
     DatabaseReference db;
-    DatabaseReference dbTrabajadores;
 
     // declaramos un objeto "trabajador"
     private Trabajador mJimenez;
     private Trabajador trabajador;
+
+    // declaramos el arrayList
+    ArrayList<Trabajador> list = new ArrayList<>();
+
+    int posicion; // contiene la posición del ítem pulsado del listview
+    Context contexto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +61,8 @@ public class GestionSolicitudesActivity extends AppCompatActivity {
         tvNombreTrabajador = findViewById(R.id.tvNombreTrabajador_GestionSolicitudes);
         lvTrabajadores     = findViewById(R.id.lvTrabajadores);
 
+        lvTrabajadores.setOnItemClickListener(this);
+
         // creamos un objeto "Trabajador"
         mJimenez = new Trabajador();
         mJimenez = getIntent().getParcelableExtra("parametro");
@@ -59,7 +72,8 @@ public class GestionSolicitudesActivity extends AppCompatActivity {
 
         // referenciamos la BBDD
         db = FirebaseDatabase.getInstance().getReference();
-        dbTrabajadores = FirebaseDatabase.getInstance().getReference().child("Trabajadores");
+
+        contexto = this;
 
         // Como tenemos que consultar el año, lo obtenemos del sistema.
         // El responsable consultará el estado de las vacaciones en el
@@ -69,46 +83,35 @@ public class GestionSolicitudesActivity extends AppCompatActivity {
         anio = dateFormat.format(date);
         Log.d("año", anio);
 
-        final ArrayList<String> list = new ArrayList<>();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, list);
-        lvTrabajadores.setAdapter(adapter);
-
         // consultamos la BBDD
-        db.child("Trabajadores").addChildEventListener(new ChildEventListener() {
+        db.child("Trabajadores").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull final DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                trabajador = dataSnapshot.getValue(Trabajador.class);
+                for(DataSnapshot objeto : dataSnapshot.getChildren()){
 
-                /*Toast.makeText(GestionSolicitudesActivity.this,
-                                   trabajador.getNombre()
-                                + " " + trabajador.getApellido1()
-                                + " " + trabajador.getApellido2()
-                                + " " + trabajador.getEmail()
-                                + " " + trabajador.getEsResponsable()
-                                + " " + trabajador.getNif()
-                                + " " + trabajador.getId(), Toast.LENGTH_SHORT).show();*/
+                    final Trabajador trabajador = objeto.getValue(Trabajador.class);
 
-                list.add(trabajador.getNombre() + " "
-                        + trabajador.getApellido1() + " "
-                        + trabajador.getApellido2());
-                adapter.notifyDataSetChanged();
+                    db.child("Vacaciones").child(trabajador.getId()).child(anio).
+                            addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            }
+                                    for (DataSnapshot objeto1 : dataSnapshot.getChildren()){
+                                        if(objeto1.getValue().toString().equals("pendiente_confirmacion")){
+                                            list.add(trabajador);
+                                        }
+                                    }
+                                    adaptador = new AdaptadorSolicitudes(contexto, list);
+                                    lvTrabajadores.setAdapter(adaptador);
+                                }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                }
+                            });
+                }
 
             }
 
@@ -118,184 +121,140 @@ public class GestionSolicitudesActivity extends AppCompatActivity {
             }
         });
 
-        /*dbTrabajadores.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                id = dataSnapshot.getChildren().iterator().next().getKey();
-                //Toast.makeText(GestionSolicitudesActivity.this, id, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-        /*db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot query : dataSnapshot.child("Trabajadores").getChildren())
-                {
-                    //trabajador = query.getValue(Trabajador.class);
-
-                    String id = query.getKey();
-                    String nombre = query.child("nombre").getValue().toString();
-
-                    Toast.makeText(GestionSolicitudesActivity.this,
-                                       trabajador.getNombre()
-                                    + " " + trabajador.getApellido1()
-                                    + " " + trabajador.getApellido2()
-                                    + " " + trabajador.getEmail()
-                                    + " " + trabajador.getEsResponsable()
-                                    + " " + trabajador.getNif()
-                                    + " " + trabajador.getId(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(GestionSolicitudesActivity.this, id + " " + nombre, Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-        // este funciona, pero no devuelve el id, el resto de datos sí
-        /*db.child("Trabajadores").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull final DataSnapshot dataSnapshot, @Nullable String s) {
-
-                trabajador = dataSnapshot.getValue(Trabajador.class);
-
-                Toast.makeText(GestionSolicitudesActivity.this,
-                           trabajador.getNombre()
-                        + " " + trabajador.getApellido1()
-                        + " " + trabajador.getApellido2()
-                        + " " + trabajador.getEmail()
-                        + " " + trabajador.getEsResponsable()
-                        + " " + trabajador.getNif()
-                        + " " + trabajador.getId(), Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-
-        /*db.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull final DataSnapshot dataSnapshot, @Nullable String s) {
-
-                // colección trabajador
-                id = dataSnapshot.child("Trabajadores").getChildren().iterator().next().getKey();
-                Log.d("marca", id);
-                Toast.makeText(GestionSolicitudesActivity.this, id, Toast.LENGTH_SHORT).show();
-                *//*String nombre = dataSnapshot.child("nombre").getValue().toString();
-                String apellido1 = dataSnapshot.child("apellido1").getValue().toString();
-                String apellido2 = dataSnapshot.child("apellido2").getValue().toString();*//*
-
-                // colección Vacaciones
-                *//*String estadoVacaciones = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("estado_vacaciones").getValue().toString();
-                String numeroPeriodos = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("numero_periodos").getValue().toString();
-                String fechaInicioP1 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_inicio_periodo1").getValue().toString();
-                String fechafinP1 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_fin_periodo1").getValue().toString();
-                String fechaInicioP2 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_inicio_periodo2").getValue().toString();
-                String fechafinP2 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_fin_periodo2").getValue().toString();*//*
-
-                list.add(id);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-        /*db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-
-                // colección trabajador
-                String id = dataSnapshot.getKey();
-                Log.d("id", id);
-                Toast.makeText(GestionSolicitudesActivity.this, id, Toast.LENGTH_SHORT).show();
-                *//*String nombre = dataSnapshot.child("Trabajadores").child(id).child("nombre").getValue().toString();
-                String apellido1 = dataSnapshot.child("Trabajadores").child(id).child("apellido1").getValue().toString();
-                String apellido2 = dataSnapshot.child("Trabajadores").child(id).child("apellido2").getValue().toString();
-
-                // colección Vacaciones
-                String estadoVacaciones = dataSnapshot.child("Vacaciones").child(anio)
-                                        .child(id).child("estado_vacaciones").getValue().toString();
-                String numeroPeriodos = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("numero_periodos").getValue().toString();
-                String fechaInicioP1 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_inicio_periodo1").getValue().toString();
-                String fechafinP1 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_fin_periodo1").getValue().toString();
-                String fechaInicioP2 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_inicio_periodo2").getValue().toString();
-                String fechafinP2 = dataSnapshot.child("Vacaciones").child(anio)
-                        .child(id).child("fecha_fin_periodo2").getValue().toString();
-
-                list.add(nombre + "" + apellido1);
-                adapter.notifyDataSetChanged();*//*
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-
     }
 
-        //método que al pulsar en el ImageView (flecha) de la cabecera
-        // nos lleva a la pantalla anterior
-        public void volver(View view) {
+    //método que al pulsar en el ImageView (flecha) de la cabecera
+    // nos lleva a la pantalla anterior
+    public void volver(View view) {
         Intent intent = new Intent(getApplicationContext(), GestionarVacacionesActivity.class);
         intent.putExtra("parametro", mJimenez); //pasamos el objeto mJimenez
         startActivity(intent);
     }
+
+    // evento clic Listview
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+        final String idEmpleado;
+
+        posicion=i;
+
+        Trabajador trabajador = list.get(i);
+        idEmpleado=trabajador.getId();
+
+        // consultamos la BBDD para saber las fechas que ha solicitado el trabajador
+        db.child("Vacaciones").child(idEmpleado).child(anio).
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot vacaciones : dataSnapshot.getChildren()){
+
+                            if(vacaciones.getKey().equals("fecha_inicio_periodo1")){
+                                fechaInicioPeriodo1 = vacaciones.getValue().toString();
+
+
+                               Toast.makeText(GestionSolicitudesActivity.this, fechaInicioPeriodo1, Toast.LENGTH_SHORT).show();
+
+                            }
+                            if(vacaciones.getKey().equals("fecha_inicio_periodo2")){
+                                fechaInicioPeriodo2 = vacaciones.getValue().toString();
+
+                                Toast.makeText(GestionSolicitudesActivity.this, fechaInicioPeriodo2, Toast.LENGTH_SHORT).show();
+
+                            }
+                            if(vacaciones.getKey().equals("fecha_fin_periodo1")){
+                                fechaFinPeriodo1 = vacaciones.getValue().toString();
+
+                                Toast.makeText(GestionSolicitudesActivity.this, fechaFinPeriodo1, Toast.LENGTH_SHORT).show();
+
+                            }
+                            if(vacaciones.getKey().equals("fecha_fin_periodo2")){
+                                fechaFinPeriodo2 = vacaciones.getValue().toString();
+
+                                Toast.makeText(GestionSolicitudesActivity.this, fechaFinPeriodo2, Toast.LENGTH_SHORT).show();
+
+                            }
+                            if(vacaciones.getKey().equals("numero_periodos")){
+                                numeroPeriodos = vacaciones.getValue().toString();
+
+                                Toast.makeText(GestionSolicitudesActivity.this, numeroPeriodos, Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        // creamos la ventana de diálogo
+        AlertDialog.Builder ventana = new AlertDialog.Builder(contexto);
+
+        ventana.setTitle("Vacaciones solicitadas");
+        ventana.setMessage("Condecer/Rechazar vacaciones...");
+
+        // botón "Conceder"
+        ventana.setPositiveButton("Conceder", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.cancel();
+                modificarVacaciones(idEmpleado,"aceptadas", "Vacaciones aceptadas...");
+            }
+        });
+
+        // botón "Denegar"
+        ventana.setNegativeButton("Denegar", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dialogInterface.cancel();
+                modificarVacaciones(idEmpleado, "denegadas", "Vacaciones rechazadas...");
+            }
+        });
+
+        AlertDialog alert = ventana.create();
+        alert.show();
+
+    }
+
+    public void modificarVacaciones(String id, String valor, final String estado)
+    {
+        Map<String, Object> registroMap = new HashMap<>();
+
+        registroMap.put("estado_vacaciones", valor);
+
+        db.child("Vacaciones").child(id).child(anio)
+                .updateChildren(registroMap, new DatabaseReference.CompletionListener()
+                {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError,
+                                           @NonNull DatabaseReference databaseReference)
+                    {
+                        // modificación correcta
+                        if (databaseError == null)
+                        {
+                            list.remove(posicion);
+                            adaptador.notifyDataSetChanged();
+
+                            Toast.makeText(GestionSolicitudesActivity.this, estado,
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+                        else
+                        {
+                            Toast.makeText(GestionSolicitudesActivity.this,
+                                    "No fue posible la operación...", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+    }
 }
+

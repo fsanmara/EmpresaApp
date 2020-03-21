@@ -45,7 +45,7 @@ public class AdaptadorFichajesUsuario extends BaseAdapter {
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.item_fichajes_usuario, null);
 
-        ImageView ivUsuario = convertView.findViewById(R.id.ivUsuario);
+        ImageView ivUsuario = convertView.findViewById(R.id.ivReloj);
         ivUsuario.setImageResource(R.drawable.clock);
 
         TextView tvFecha= convertView.findViewById(R.id.tvFecha);
