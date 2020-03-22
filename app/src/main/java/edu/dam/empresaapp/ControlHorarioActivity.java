@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import edu.dam.empresaapp.adaptadores.AdaptadorFichajesUsuario;
+import edu.dam.empresaapp.adaptadores.AdaptadorFichajes;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
 
 public class ControlHorarioActivity extends AppCompatActivity {
@@ -33,7 +33,7 @@ public class ControlHorarioActivity extends AppCompatActivity {
     private ListView lvFichajesTrabajadores;
     private Spinner spTrabajadores;
     private AdaptadorTrabajadores adapterTrabajadores;
-    private AdaptadorFichajesUsuario adapterFichajes;
+    private AdaptadorFichajes adapterFichajes;
 
     private String idTrabajador, fecha, horaEntrada, horaSalida, textoEntrada, textoSalida;
 
@@ -72,7 +72,7 @@ public class ControlHorarioActivity extends AppCompatActivity {
         contexto = this;
 
         adapterTrabajadores = new AdaptadorTrabajadores(contexto, listadoTrabajadores);
-        adapterFichajes     = new AdaptadorFichajesUsuario(contexto, listadoFichajes);
+        adapterFichajes     = new AdaptadorFichajes(contexto, listadoFichajes);
 
         //consultamos la BBDD
         db.child("Trabajadores").addValueEventListener(new ValueEventListener() {
