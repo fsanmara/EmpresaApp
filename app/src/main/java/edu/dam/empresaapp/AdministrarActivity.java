@@ -57,6 +57,17 @@ public class AdministrarActivity extends AppCompatActivity {
             }
         });
 
+        //listener del cardView "Control Horario"
+        cardControlHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), ControlHorarioActivity.class);
+                intent.putExtra("parametro", mJimenez); //pasamos el objeto mJimenez
+                startActivity(intent);
+            }
+        });
+
     }
 
     //método que al pulsar en el ImageView (flecha) de la cabecera
