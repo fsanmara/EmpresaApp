@@ -103,6 +103,7 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
                                     }
                                     adaptador = new AdaptadorSolicitudes(contexto, list);
                                     lvTrabajadores.setAdapter(adaptador);
+
                                 }
 
                                 @Override

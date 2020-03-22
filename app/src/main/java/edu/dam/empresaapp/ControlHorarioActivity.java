@@ -32,8 +32,8 @@ public class ControlHorarioActivity extends AppCompatActivity {
     private TextView tvNombreTrabajadorControlFichajes;
     private ListView lvFichajesTrabajadores;
     private Spinner spTrabajadores;
-    private Adapter adapterTrabajadores;
-    private Adapter adapterFichajes;
+    private AdaptadorTrabajadores adapterTrabajadores;
+    private AdaptadorFichajesUsuario adapterFichajes;
 
     private String idTrabajador, fecha, horaEntrada, horaSalida, textoEntrada, textoSalida;
 
@@ -84,7 +84,7 @@ public class ControlHorarioActivity extends AppCompatActivity {
                     final Trabajador trabajador = objeto.getValue(Trabajador.class);
 
                     listadoTrabajadores.add(trabajador);
-                    spTrabajadores.setAdapter((SpinnerAdapter) adapterTrabajadores);
+                    spTrabajadores.setAdapter(adapterTrabajadores);
 
                 }
 
@@ -96,7 +96,7 @@ public class ControlHorarioActivity extends AppCompatActivity {
             }
         });
 
-
+        // evento click del Spinner
         spTrabajadores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -105,8 +105,8 @@ public class ControlHorarioActivity extends AppCompatActivity {
 
                 final String idTrabajador = trabajador.getId();
 
-                Toast.makeText(ControlHorarioActivity.this, idTrabajador, Toast.LENGTH_SHORT).show();
-
+                // consultamos la BBDD para crear un objeto "Fichajes" y añadirlo a su
+                // ArrayList
                 db.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -116,8 +116,6 @@ public class ControlHorarioActivity extends AppCompatActivity {
                             fecha = query.getKey();
 
                             horaEntrada = query.child("hora_entrada").getValue().toString();
-
-                            Toast.makeText(ControlHorarioActivity.this, fecha, Toast.LENGTH_SHORT).show();
 
                             // cuando el usuario lee el QR, se crean los nodos "hora_entrada" y
                             // texto_entrada, pero los nodos "hora_salida" y "texto_salida" no van
@@ -144,16 +142,21 @@ public class ControlHorarioActivity extends AppCompatActivity {
                             Fichajes fichajes = new Fichajes(idTrabajador, fecha, horaEntrada, horaSalida, textoEntrada, textoSalida);
 
                             listadoFichajes.add(fichajes);
-                            lvFichajesTrabajadores.setAdapter((ListAdapter) adapterFichajes);
+                            lvFichajesTrabajadores.setAdapter(adapterFichajes);
+                            adapterFichajes.notifyDataSetChanged();
+
                         }
 
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
+
+
             }
 
             @Override
