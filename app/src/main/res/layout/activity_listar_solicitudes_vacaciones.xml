@@ -44,7 +44,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvTexto"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"

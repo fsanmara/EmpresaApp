@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -187,12 +188,12 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
     {
         final String idEmpleado;
 
-        TextView nombreEmpleado, fechaInicio1, fechaFin1, fechaInicio2, fechaFin2;
+        TextView tvNombreEmpleado, tvFechaInicio1, tvFechaFin1, tvFechaInicio2, tvFechaFin2, tvNA;
         Button aceptar, denegar, salir;
 
         posicion=i;
 
-        Trabajador trabajador = listadoTrabajador.get(i);
+        final Trabajador trabajador = listadoTrabajador.get(i);
         Vacaciones vacaciones = listadoVacaciones.get(i);
 
         idEmpleado=trabajador.getId();
@@ -206,32 +207,33 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
         ventana.setView(vista);
         final AlertDialog alert = ventana.create();
 
-        nombreEmpleado=(TextView) vista.findViewById(R.id.nombreEmpleado);
-        fechaInicio1=(TextView) vista.findViewById(R.id.periodo1Inicio);
-        fechaFin1=(TextView) vista.findViewById(R.id.periodo1Fin);
-        fechaInicio2=(TextView) vista.findViewById(R.id.periodo2Inicio);
-        fechaFin2=(TextView) vista.findViewById(R.id.periodo2Fin);
+        tvNombreEmpleado = vista.findViewById(R.id.nombreEmpleado);
+        tvFechaInicio1   = vista.findViewById(R.id.periodo1Inicio);
+        tvFechaFin1      = vista.findViewById(R.id.periodo1Fin);
+        tvFechaInicio2   = vista.findViewById(R.id.periodo2Inicio);
+        tvFechaFin2      = vista.findViewById(R.id.periodo2Fin);
+        aceptar          = vista.findViewById(R.id.botonAceptar);
+        denegar          = vista.findViewById(R.id.botonDenegar);
+        salir            = vista.findViewById(R.id.botonSalir);
+        tvNA             = vista.findViewById(R.id.tvNA);
 
-        aceptar=(Button) vista.findViewById(R.id.botonAceptar);
-        denegar=(Button) vista.findViewById(R.id.botonDenegar);
-        salir=(Button) vista.findViewById(R.id.botonSalir);
-
-
-        nombreEmpleado.setText(trabajador.getNombre() + " " + trabajador.getApellido1() + " " + trabajador.getApellido2());
+        tvNombreEmpleado.setText(trabajador.getNombre() + " " + trabajador.getApellido1() + " " + trabajador.getApellido2());
 
         if (vacaciones.getNumeroPeriodos().equals("1"))
         {
-            fechaInicio1.setText(vacaciones.getFechaInicioPeriodo1());
-            fechaFin1.setText(vacaciones.getFechaFinPeriodo1());
+            tvFechaInicio1.setText(vacaciones.getFechaInicioPeriodo1());
+            tvFechaFin1.setText(vacaciones.getFechaFinPeriodo1());
+            tvNA.setVisibility(View.VISIBLE);
+            tvNA.setText("No solicitado");
         }
         else
         if (vacaciones.getNumeroPeriodos().equals("2"))
         {
-            fechaInicio1.setText(vacaciones.getFechaInicioPeriodo1());
-            fechaFin1.setText(vacaciones.getFechaFinPeriodo1());
+            tvFechaInicio1.setText(vacaciones.getFechaInicioPeriodo1());
+            tvFechaFin1.setText(vacaciones.getFechaFinPeriodo1());
 
-            fechaInicio2.setText(vacaciones.getFechaInicioPeriodo2());
-            fechaFin2.setText(vacaciones.getFechaFinPeriodo2());
+            tvFechaInicio2.setText(vacaciones.getFechaInicioPeriodo2());
+            tvFechaFin2.setText(vacaciones.getFechaFinPeriodo2());
         }
 
         aceptar.setOnClickListener(new View.OnClickListener()
@@ -241,6 +243,23 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
             {
                 alert.cancel();
                 modificarVacaciones(idEmpleado,"aceptadas", "Vacaciones aceptadas...");
+
+                // mandamos un email al empleado. Se abrirá el cliente de correo
+                // que tenga instalado el usuario
+                String email = trabajador.getEmail();
+                String asunto = "Estado solicitud vacaciones";
+                String cuerpo = "Su solicitud de vacaciones ha sido aceptada.Saludos";
+
+                String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
+                Intent request = new Intent(Intent.ACTION_VIEW);
+                request.setData(Uri.parse(emailUrl));
+                try {
+                    startActivity(request);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getApplicationContext(), "No hay clientes de email instalados...",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -251,6 +270,20 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
             {
                 alert.cancel();
                 modificarVacaciones(idEmpleado,"denegadas", "Vacaciones rechazadas...");
+
+                String email = trabajador.getEmail();
+                String asunto = "Estado solicitud vacaciones";
+                String cuerpo = "Su solicitud de vacaciones ha sido denegada. Saludos";
+
+                String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
+                Intent request = new Intent(Intent.ACTION_VIEW);
+                request.setData(Uri.parse(emailUrl));
+                try {
+                    startActivity(request);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getApplicationContext(), "No hay clientes de email instalados...",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -294,11 +327,12 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
                         else
                         {
                             Toast.makeText(GestionSolicitudesActivity.this,
-                                    "No fue posible la operación...", Toast.LENGTH_LONG).show();
+                                    "No fue posible realizar la operación...", Toast.LENGTH_LONG).show();
 
                         }
                     }
                 });
     }
+
 }
 

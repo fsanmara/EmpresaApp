@@ -29,14 +29,25 @@
             android:text=""
             android:textColor="@color/blackcolor"
             android:textSize="15sp" />
+    </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_pantalla_supervisor"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            />
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+    <TextView
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/azul"
+        android:text="@string/propuestas_pendientes_de_revisar">
+
+    </TextView>
 
         <ListView
             android:id="@+id/lvTrabajadores"
@@ -47,6 +58,5 @@
         </ListView>
 
     </LinearLayout>
-
 
 </LinearLayout>
