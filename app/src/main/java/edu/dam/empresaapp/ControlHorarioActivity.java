@@ -7,14 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,7 +68,7 @@ public class ControlHorarioActivity extends AppCompatActivity {
         contexto = this;
 
         adapterTrabajadores = new AdaptadorTrabajadores(contexto, listadoTrabajadores);
-        adapterFichajes     = new AdaptadorFichajes(contexto, listadoFichajes);
+        //adapterFichajes     = new AdaptadorFichajes(contexto, listadoFichajes);
 
         //consultamos la BBDD
         db.child("Trabajadores").addValueEventListener(new ValueEventListener() {
@@ -104,6 +100,8 @@ public class ControlHorarioActivity extends AppCompatActivity {
                 final Trabajador trabajador = listadoTrabajadores.get(position);
 
                 final String idTrabajador = trabajador.getId();
+
+                listadoFichajes.clear();
 
                 // consultamos la BBDD para crear un objeto "Fichajes" y añadirlo a su
                 // ArrayList
@@ -142,10 +140,11 @@ public class ControlHorarioActivity extends AppCompatActivity {
                             Fichajes fichajes = new Fichajes(idTrabajador, fecha, horaEntrada, horaSalida, textoEntrada, textoSalida);
 
                             listadoFichajes.add(fichajes);
-                            lvFichajesTrabajadores.setAdapter(adapterFichajes);
-                            adapterFichajes.notifyDataSetChanged();
 
                         }
+
+                        adapterFichajes     = new AdaptadorFichajes(contexto, listadoFichajes);
+                        lvFichajesTrabajadores.setAdapter(adapterFichajes);
 
                     }
 

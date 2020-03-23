@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-
 
 public class GestionarVacacionesActivity extends AppCompatActivity {
 
@@ -44,6 +42,16 @@ public class GestionarVacacionesActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), GestionSolicitudesActivity.class);
+                intent.putExtra("parametro", mJimenez); //pasamos el objeto mJimenez
+                startActivity(intent);
+            }
+        });
+
+        cardListarSolicitudes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), ListarSolicitudesVacacionesActivity.class);
                 intent.putExtra("parametro", mJimenez); //pasamos el objeto mJimenez
                 startActivity(intent);
             }

@@ -5,16 +5,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +41,7 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
     private ListView lvTrabajadores;
     private AdaptadorSolicitudes adaptador;
 
-    // declaramos la referencia a la BBDD
+    // referenciamos la BBDD
     DatabaseReference db;
 
     // declaramos un objeto "trabajador"
@@ -46,7 +49,8 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
     private Trabajador trabajador;
 
     // declaramos el arrayList
-    ArrayList<Trabajador> list = new ArrayList<>();
+    ArrayList<Trabajador> listadoTrabajador = new ArrayList<>();
+    ArrayList<Vacaciones> listadoVacaciones = new ArrayList<>();
 
     int posicion; // contiene la posición del ítem pulsado del listview
     Context contexto;
@@ -83,45 +87,91 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
         Log.d("año", anio);
 
         // consultamos la BBDD
-        db.child("Trabajadores").addValueEventListener(new ValueEventListener() {
+        db.child("Trabajadores").addValueEventListener(new ValueEventListener()
+        {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                listadoTrabajador.clear();
+                listadoVacaciones.clear();
 
-                for(DataSnapshot objeto : dataSnapshot.getChildren()){
-
+                // leemos la información y la guardamos en un ArrayList
+                for (final DataSnapshot objeto : dataSnapshot.getChildren())
+                {
                     final Trabajador trabajador = objeto.getValue(Trabajador.class);
 
-                    db.child("Vacaciones").child(trabajador.getId()).child(anio).
-                            addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    db.child("Vacaciones").child(trabajador.getId()).child(anio).addValueEventListener(new ValueEventListener()
+                    {
+                        Vacaciones vacaciones = new Vacaciones();
 
-                                    for (DataSnapshot objeto1 : dataSnapshot.getChildren()){
-                                        if(objeto1.getValue().toString().equals("pendiente_confirmacion")){
-                                            list.add(trabajador);
-                                        }
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                        {
+                            int i=1;
+
+                            for (DataSnapshot objetoVacaciones : dataSnapshot.getChildren())
+                            {
+                                switch (objetoVacaciones.getKey())
+                                {
+                                    case "estado_vacaciones":
+                                        vacaciones.setEstadoVacaciones(objetoVacaciones.getValue().toString());
+                                        break;
+
+                                    case "fecha_fin_periodo1":
+                                        vacaciones.setFechaFinPeriodo1(objetoVacaciones.getValue().toString());
+                                        break;
+
+                                    case "fecha_fin_periodo2":
+                                        vacaciones.setFechaFinPeriodo2(objetoVacaciones.getValue().toString());
+                                        break;
+
+                                    case "fecha_inicio_periodo1":
+                                        vacaciones.setFechaInicioPeriodo1(objetoVacaciones.getValue().toString());
+                                        break;
+
+                                    case "fecha_inicio_periodo2":
+                                        vacaciones.setFechaInicioPeriodo2(objetoVacaciones.getValue().toString());
+                                        break;
+
+                                    case "numero_periodos":
+                                        vacaciones.setNumeroPeriodos(objetoVacaciones.getValue().toString());
+                                        break;
+                                }
+
+                                i++;
+
+                                if (i == 7)
+                                {
+                                    if (vacaciones.getEstadoVacaciones().equals("pendiente_confirmacion"))
+                                    {
+                                        listadoTrabajador.add(trabajador);
+                                        listadoVacaciones.add(vacaciones);
                                     }
-                                    adaptador = new AdaptadorSolicitudes(contexto, list);
-                                    lvTrabajadores.setAdapter(adaptador);
-
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // iniciamos el adaptador para mostrar la información en el ListView
+                            adaptador = new AdaptadorSolicitudes(contexto, listadoTrabajador);
+                            lvTrabajadores.setAdapter(adaptador);
+                        }
 
-                                }
-                            });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError)
+                        {
+
+                        }
+                    });
                 }
-
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
 
             }
         });
-
     }
+
 
     //método que al pulsar en el ImageView (flecha) de la cabecera
     // nos lleva a la pantalla anterior
@@ -133,96 +183,89 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
 
     // evento clic Listview
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int i, long id)
+    {
         final String idEmpleado;
+
+        TextView nombreEmpleado, fechaInicio1, fechaFin1, fechaInicio2, fechaFin2;
+        Button aceptar, denegar, salir;
 
         posicion=i;
 
-        Trabajador trabajador = list.get(i);
+        Trabajador trabajador = listadoTrabajador.get(i);
+        Vacaciones vacaciones = listadoVacaciones.get(i);
+
         idEmpleado=trabajador.getId();
-
-        // consultamos la BBDD para saber las fechas que ha solicitado el trabajador
-        db.child("Vacaciones").child(idEmpleado).child(anio).
-                addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot vacaciones : dataSnapshot.getChildren()){
-
-                            if(vacaciones.getKey().equals("fecha_inicio_periodo1")){
-                                fechaInicioPeriodo1 = vacaciones.getValue().toString();
-
-
-                               Toast.makeText(GestionSolicitudesActivity.this, fechaInicioPeriodo1, Toast.LENGTH_SHORT).show();
-
-                            }
-                            if(vacaciones.getKey().equals("fecha_inicio_periodo2")){
-                                fechaInicioPeriodo2 = vacaciones.getValue().toString();
-
-                                Toast.makeText(GestionSolicitudesActivity.this, fechaInicioPeriodo2, Toast.LENGTH_SHORT).show();
-
-                            }
-                            if(vacaciones.getKey().equals("fecha_fin_periodo1")){
-                                fechaFinPeriodo1 = vacaciones.getValue().toString();
-
-                                Toast.makeText(GestionSolicitudesActivity.this, fechaFinPeriodo1, Toast.LENGTH_SHORT).show();
-
-                            }
-                            if(vacaciones.getKey().equals("fecha_fin_periodo2")){
-                                fechaFinPeriodo2 = vacaciones.getValue().toString();
-
-                                Toast.makeText(GestionSolicitudesActivity.this, fechaFinPeriodo2, Toast.LENGTH_SHORT).show();
-
-                            }
-                            if(vacaciones.getKey().equals("numero_periodos")){
-                                numeroPeriodos = vacaciones.getValue().toString();
-
-                                Toast.makeText(GestionSolicitudesActivity.this, numeroPeriodos, Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
 
         // creamos la ventana de diálogo
         AlertDialog.Builder ventana = new AlertDialog.Builder(contexto);
+        LayoutInflater inflater = (LayoutInflater)contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        ventana.setTitle("Vacaciones solicitadas");
-        ventana.setMessage("Condecer/Rechazar vacaciones...");
+        View vista = inflater.inflate(R.layout.alert_dialog_gestionar_vacaciones, null);
 
-        // botón "Conceder"
-        ventana.setPositiveButton("Conceder", new DialogInterface.OnClickListener()
+        ventana.setView(vista);
+        final AlertDialog alert = ventana.create();
+
+        nombreEmpleado=(TextView) vista.findViewById(R.id.nombreEmpleado);
+        fechaInicio1=(TextView) vista.findViewById(R.id.periodo1Inicio);
+        fechaFin1=(TextView) vista.findViewById(R.id.periodo1Fin);
+        fechaInicio2=(TextView) vista.findViewById(R.id.periodo2Inicio);
+        fechaFin2=(TextView) vista.findViewById(R.id.periodo2Fin);
+
+        aceptar=(Button) vista.findViewById(R.id.botonAceptar);
+        denegar=(Button) vista.findViewById(R.id.botonDenegar);
+        salir=(Button) vista.findViewById(R.id.botonSalir);
+
+
+        nombreEmpleado.setText(trabajador.getNombre() + " " + trabajador.getApellido1() + " " + trabajador.getApellido2());
+
+        if (vacaciones.getNumeroPeriodos().equals("1"))
+        {
+            fechaInicio1.setText(vacaciones.getFechaInicioPeriodo1());
+            fechaFin1.setText(vacaciones.getFechaFinPeriodo1());
+        }
+        else
+        if (vacaciones.getNumeroPeriodos().equals("2"))
+        {
+            fechaInicio1.setText(vacaciones.getFechaInicioPeriodo1());
+            fechaFin1.setText(vacaciones.getFechaFinPeriodo1());
+
+            fechaInicio2.setText(vacaciones.getFechaInicioPeriodo2());
+            fechaFin2.setText(vacaciones.getFechaFinPeriodo2());
+        }
+
+        aceptar.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(DialogInterface dialog, int which)
+            public void onClick(View view)
             {
-                dialog.cancel();
+                alert.cancel();
                 modificarVacaciones(idEmpleado,"aceptadas", "Vacaciones aceptadas...");
             }
         });
 
-        // botón "Denegar"
-        ventana.setNegativeButton("Denegar", new DialogInterface.OnClickListener()
+        denegar.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
+            public void onClick(View view)
             {
-                dialogInterface.cancel();
-                modificarVacaciones(idEmpleado, "denegadas", "Vacaciones rechazadas...");
+                alert.cancel();
+                modificarVacaciones(idEmpleado,"denegadas", "Vacaciones rechazadas...");
             }
         });
 
-        AlertDialog alert = ventana.create();
-        alert.show();
+        salir.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                alert.dismiss();
+            }
+        });
 
+        alert.show();
     }
+
 
     public void modificarVacaciones(String id, String valor, final String estado)
     {
@@ -240,7 +283,8 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
                         // modificación correcta
                         if (databaseError == null)
                         {
-                            list.remove(posicion);
+                            listadoTrabajador.remove(posicion);
+                            listadoVacaciones.remove(posicion);
                             adaptador.notifyDataSetChanged();
 
                             Toast.makeText(GestionSolicitudesActivity.this, estado,
