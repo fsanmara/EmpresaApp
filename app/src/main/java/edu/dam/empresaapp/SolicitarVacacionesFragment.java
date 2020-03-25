@@ -16,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -135,20 +133,21 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 // si no se ha seleccionado ningún radioButton
                 // mostramos un mensaje
-                if (!rbtnSi.isChecked() && !rbtnNo.isChecked()) {
-
+                if (!rbtnSi.isChecked() && !rbtnNo.isChecked())
+                {
                     Toast.makeText(getContext(), "No ha seleccionado si va a " +
                             "disfrutar de sus vacaciones en dos periodos", Toast.LENGTH_LONG).show();
-
-                } else { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
+                }
+                else
+                    { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
 
                     //esta opción permite que no se puedan seleccionar fechas anteriores
                     //a la actual
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
                     datePickerDialog.show();
+                    }
                 }
-            }
         });
 
         tvFechaFinP1.setOnClickListener(new View.OnClickListener() {
@@ -171,20 +170,22 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 // si no se ha seleccionado ningún radioButton
                 // mostramos un mensaje
-                if (!rbtnSi.isChecked() && !rbtnNo.isChecked()) {
-
+                if (!rbtnSi.isChecked() && !rbtnNo.isChecked())
+                {
                     Toast.makeText(getContext(), "No ha seleccionado si va a " +
                             "disfrutar de sus vacaciones en dos periodos", Toast.LENGTH_LONG).show();
 
-                } else { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
+                }
+                else
+                    { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
 
                     //esta opción permite que no se puedan seleccionar fechas anteriores
                     //a la actual
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
                     datePickerDialog.show();
+                    }
                 }
-            }
         });
 
         tvFechaInicioP2.setOnClickListener(new View.OnClickListener() {
@@ -207,22 +208,22 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 // si no se ha seleccionado ningún radioButton
                 // mostramos un mensaje
-                if (!rbtnSi.isChecked() && !rbtnNo.isChecked()) {
-
+                if (!rbtnSi.isChecked() && !rbtnNo.isChecked())
+                {
                     Toast.makeText(getContext(), "No ha seleccionado si va a " +
                             "disfrutar de sus vacaciones en dos periodos", Toast.LENGTH_LONG).show();
 
-                } else { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
+                }
+                else
+                    { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
 
                     //esta opción permite que no se puedan seleccionar fechas anteriores
                     //a la actual
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
                     datePickerDialog.show();
-
-
+                    }
                 }
-            }
         });
 
         tvFechaFinP2.setOnClickListener(new View.OnClickListener() {
@@ -245,21 +246,23 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 // si no se ha seleccionado ningún radioButton
                 // mostramos un mensaje
-                if (!rbtnSi.isChecked() && !rbtnNo.isChecked()) {
-
+                if (!rbtnSi.isChecked() && !rbtnNo.isChecked())
+                {
                     Toast.makeText(getContext(), "No ha seleccionado si va a " +
                             "disfrutar de sus vacaciones en dos periodos", Toast.LENGTH_LONG).show();
 
-                } else { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
+                }
+                else
+                    { // si se ha seleccionado uno de los radioButton mostramos el DatePickerDialog
 
                     //esta opción permite que no se puedan seleccionar fechas anteriores
                     //a la actual
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
                     datePickerDialog.show();
-                }
+                    }
 
-            }
+             }
         });
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -268,18 +271,20 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-                if (!rbtnSi.isChecked() && !rbtnNo.isChecked()) {
-
+                if (!rbtnSi.isChecked() && !rbtnNo.isChecked())
+                {
                     Toast.makeText(getContext(), "No ha seleccionado si va a " +
                             "disfrutar de sus vacaciones en dos periodos", Toast.LENGTH_LONG).show();
-
-                } else {
+                }
+                else
+                    {
 
                     if (periodos.equals("1")) {
 
                     //introducimos una validación para que
                     //las fechas de inicio y fin no estén vacías
-                    if (TextUtils.isEmpty(fechaInicioP1)) {
+                    if (TextUtils.isEmpty(fechaInicioP1))
+                    {
                         Toast.makeText(getContext(),
                                 "introduzca una fecha de inicio del primer periodo",
                                 Toast.LENGTH_LONG).show();
@@ -295,11 +300,13 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                     }
 
-                    if (TextUtils.isEmpty(fechaFinP1)) {
+                    if (TextUtils.isEmpty(fechaFinP1))
+                    {
                         Toast.makeText(getContext(),
                                 "introduzca una fecha de fin del primer periodo",
                                 Toast.LENGTH_LONG).show();
-                    } else {
+                    }
+                    else {
 
                         try {
                             endDateP1 = formatter.parse(fechaFinP1);
@@ -312,8 +319,8 @@ public class SolicitarVacacionesFragment extends Fragment {
                         // a la fecha de inicio del periodo 1. Hacemos esta validación para que
                         // el usuario no seleccione una fecha de fin de vacaciones anterior a la
                         // fecha de inicio de las vacaciones
-                        if (endTimeP1 <= startTimeP1) {
-
+                        if (endTimeP1 <= startTimeP1)
+                        {
                             Toast.makeText(getContext(), "la fecha de fin del" +
                                     " periodo 1 tiene que ser superior a la fecha " +
                                     "de inicio del periodo 1", Toast.LENGTH_LONG).show();
@@ -326,14 +333,15 @@ public class SolicitarVacacionesFragment extends Fragment {
                         tvDiasP1.setVisibility(View.VISIBLE);
                         tvDiasP1.setText(resultadoP1 + " días");
 
-                        if (resultadoP1 != 30) {
+                        if (resultadoP1 != 30)
+                        {
 
                             Toast.makeText(getContext(), "Ha escogido " + resultadoP1 +
                                     " días. " + "Debe escoger un total de 30 días.",
                                     Toast.LENGTH_LONG).show();
 
-                        } else {
-
+                        } else
+                            {
                             // cuando el periodo seleccionado es de 30 días, añadimos
                             // la información a Firebase
                             anioVacaciones = String.valueOf(calendar.get(Calendar.YEAR));
@@ -375,10 +383,12 @@ public class SolicitarVacacionesFragment extends Fragment {
                         }
                     }
 
-                    if (periodos.equals("2")) {
+                    if (periodos.equals("2"))
+                    {
                         //introducimos una validación para que
                         //las fechas de inicio y fin no estén vacías
-                        if (TextUtils.isEmpty(fechaInicioP1)) {
+                        if (TextUtils.isEmpty(fechaInicioP1))
+                        {
                             Toast.makeText(getContext(),
                                     "introduzca una fecha de inicio del primer periodo",
                                     Toast.LENGTH_LONG).show();
@@ -394,11 +404,13 @@ public class SolicitarVacacionesFragment extends Fragment {
 
                         }
 
-                        if (TextUtils.isEmpty(fechaFinP1)) {
+                        if (TextUtils.isEmpty(fechaFinP1))
+                        {
                             Toast.makeText(getContext(),
                                     "introduzca una fecha de fin del primer periodo",
                                     Toast.LENGTH_LONG).show();
-                        } else {
+                        } else
+                            {
 
                             try {
                                 endDateP1 = formatter.parse(fechaFinP1);
@@ -411,40 +423,46 @@ public class SolicitarVacacionesFragment extends Fragment {
                             // a la fecha de inicio del periodo 1. Hacemos esta validación para que
                             // el usuario no seleccione una fecha de fin de vacaciones anterior a la
                             // fecha de inicio de las vacaciones
-                            if (endTimeP1 <= startTimeP1) {
-
+                            if (endTimeP1 <= startTimeP1)
+                            {
                                 Toast.makeText(getContext(), "la fecha de fin del" +
                                         " periodo 1 tiene que ser superior a la fecha " +
                                         "de inicio del periodo 1", Toast.LENGTH_LONG).show();
                             }
 
                         }
-                        if (TextUtils.isEmpty(fechaInicioP2)) {
+                        if (TextUtils.isEmpty(fechaInicioP2))
+                        {
                             Toast.makeText(getContext(),
                                     "introduzca una fecha de inicio del segundo periodo",
                                     Toast.LENGTH_LONG).show();
-                        } else {
+                        }
+                        else {
                             try {
                                 startDateP2 = formatter.parse(fechaInicioP2);
                                 startTimeP2 = startDateP2.getTime();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
+                                }
+                                catch (ParseException e)
+                                    {
+                                    e.printStackTrace();
+                                    }
+                             }
 
-                        }
-
-                        if (TextUtils.isEmpty(fechaFinP2)) {
+                        if (TextUtils.isEmpty(fechaFinP2))
+                        {
                             Toast.makeText(getContext(),
                                     "introduzca una fecha de fin del segundo periodo",
                                     Toast.LENGTH_LONG).show();
-                        } else {
+                        }
+                        else {
 
                             try {
                                 endDateP2 = formatter.parse(fechaFinP2);
                                 endTimeP2 = endDateP2.getTime();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
+                                } catch (ParseException e)
+                                    {
+                                    e.printStackTrace();
+                                    }
 
                             // Hacemos más comprobaciones con las fechas, para evitar que el
                             // usuario escoja una fecha de fin del periodo 2 inferior a la
@@ -486,15 +504,16 @@ public class SolicitarVacacionesFragment extends Fragment {
                             tvDiasP2.setText(resultadoP2 + " días");
 
 
-                            if (resultadoTotal != 30) {
-
+                            if (resultadoTotal != 30)
+                            {
                                 Toast.makeText(getContext(), "Ha escogido " + resultadoP1 +
                                         " días en el periodo 1 y " + resultadoP2 + " días en el " +
                                         "periodo 2, en total " + resultadoTotal + " días. Debe " +
                                         "escoger un total de 30 días.", Toast.LENGTH_LONG).show();
 
-                            } else {
-
+                            }
+                            else
+                                {
                                 // cuando el periodo seleccionado es de 30 días, añadimos
                                 // la información a Firebase
                                 anioVacaciones = String.valueOf(calendar.get(Calendar.YEAR));

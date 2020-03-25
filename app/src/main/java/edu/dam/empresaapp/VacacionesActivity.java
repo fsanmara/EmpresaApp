@@ -92,23 +92,30 @@ public class VacacionesActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if (dataSnapshot.child(idTrabajador).child(anio).exists()) { // si el nodo existe
+                                if (dataSnapshot.child(idTrabajador).child(anio).exists())
+                                { // si el nodo existe
                                     String estadoVacaciones = dataSnapshot.child(idTrabajador).
                                             child(anio).child("estado_vacaciones").getValue().toString();
 
-                                    if (estadoVacaciones.equals("pendiente_confirmacion")) {
+                                    if (estadoVacaciones.equals("pendiente_confirmacion"))
+                                    {
 
                                         Toast.makeText(VacacionesActivity.this,
                                                 "Sus vacaciones están pendientes de aceptación",
                                                 Toast.LENGTH_SHORT).show();
 
-                                    } else if (estadoVacaciones.equals("aceptadas")) {
+                                    }
+                                    else if (estadoVacaciones.equals("aceptadas"))
+                                    {
 
                                         Toast.makeText(VacacionesActivity.this,
                                                 "Sus vacaciones están aceptadas",
-                                                Toast.LENGTH_SHORT).show(); }
+                                                Toast.LENGTH_SHORT).show();
+                                    }
 
-                                } else { // si no existe el nodo y
+                                }
+                                else
+                                    { // si no existe el nodo y
                                     // en el caso de que las vacaciones no estén
                                     // ni aceptadas ni rechazadas, mediante un Bundle
                                     // le pasamos al fragment "SolicitarVacacionesFragment"
@@ -152,7 +159,8 @@ public class VacacionesActivity extends AppCompatActivity {
                         // "id_trabajador" del usuario logueado aún no se habría
                         //  creado en la colección "Vacaciones" de la BBDD. Así que
                         // mediante un "if" comprobamos que el nodo exista en la BBDD
-                        if (dataSnapshot.child(idTrabajador).child(anio).exists()) {
+                        if (dataSnapshot.child(idTrabajador).child(anio).exists())
+                        {
 
                             // consultamos la BBDD para ver el estado de la solicitud
                             String estadoVacaciones = dataSnapshot.child(idTrabajador).child(anio).
@@ -162,19 +170,23 @@ public class VacacionesActivity extends AppCompatActivity {
                             AlertDialog.Builder ventana = new AlertDialog.Builder(VacacionesActivity.this);
 
                             ventana.setTitle("Mensaje");
-                            if (estadoVacaciones.equals("pendiente_confirmacion")) {
+                            if (estadoVacaciones.equals("pendiente_confirmacion"))
+                            {
                                 ventana.setMessage("Su solicitud se encuentra pendiente de confirmación");
                             }
 
-                            if (estadoVacaciones.equals("aceptadas")) {
+                            if (estadoVacaciones.equals("aceptadas"))
+                            {
                                 ventana.setMessage("Su solicitud ha sido aceptada");
                             }
 
-                            if (estadoVacaciones.equals("rechazadas")) {
+                            if (estadoVacaciones.equals("rechazadas"))
+                            {
                                 ventana.setMessage("Su solicitud ha sido rechazada");
                             }
 
-                            if ((estadoVacaciones.equals(""))) {
+                            if ((estadoVacaciones.equals("")))
+                            {
                                 ventana.setMessage("No ha solicitado vacaciones para el año en curso");
                             }
 

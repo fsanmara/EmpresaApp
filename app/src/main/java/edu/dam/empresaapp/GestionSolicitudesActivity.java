@@ -253,9 +253,12 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
                 String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
                 Intent request = new Intent(Intent.ACTION_VIEW);
                 request.setData(Uri.parse(emailUrl));
-                try {
+                try
+                {
                     startActivity(request);
-                } catch (android.content.ActivityNotFoundException ex) {
+                }
+                catch (android.content.ActivityNotFoundException ex)
+                {
                     Toast.makeText(getApplicationContext(), "No hay clientes de email instalados...",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -278,9 +281,11 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
                 String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
                 Intent request = new Intent(Intent.ACTION_VIEW);
                 request.setData(Uri.parse(emailUrl));
-                try {
+                try
+                {
                     startActivity(request);
-                } catch (android.content.ActivityNotFoundException ex) {
+                }
+                catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(getApplicationContext(), "No hay clientes de email instalados...",
                             Toast.LENGTH_SHORT).show();
                 }

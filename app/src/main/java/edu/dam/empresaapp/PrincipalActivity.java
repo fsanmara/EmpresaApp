@@ -3,21 +3,16 @@ package edu.dam.empresaapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,7 +64,8 @@ public class PrincipalActivity extends AppCompatActivity {
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
                 // mostramos una barra de progreso mientras se cargan los datos
-                if (progressBar != null) {
+                if (progressBar != null)
+                {
                     progressBar.setVisibility(View.GONE);
                 }
                 //new Thread(new Runnable() {
@@ -102,25 +98,21 @@ public class PrincipalActivity extends AppCompatActivity {
                          //   @Override
                          //   public void run() {
 
-
                                 tvNombreTrabajador.setText(formateado);
-
 
                 // Si el trabajador es, además, el responsable
                 // hacemos visible el botón "Administrar" que
                 // le permitirá gestionar sus tareas, como la
                 // asignación de turnos y la gestión de las vacaciones
-                if(trabajador.getEsResponsable()){
-
+                if(trabajador.getEsResponsable())
+                {
                             btnAdministrar.setVisibility(View.VISIBLE);}
                            // }
                         //});
 
                     //}
                 //}).start();
-
-
-            }
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -142,34 +134,36 @@ public class PrincipalActivity extends AppCompatActivity {
         btnVacaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(trabajador == null){
-
+                if(trabajador == null)
+                {
                     Toast.makeText(PrincipalActivity.this,
                             "Cargando datos...", Toast.LENGTH_SHORT).show();
-
-                } else {
-
+                }
+                else
+                    {
                     Intent intent = new Intent(getApplicationContext(), VacacionesActivity.class);
                     intent.putExtra("parametro", trabajador);
                     startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
 
         // listener del botón "Turnos"
         btnTurnos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(trabajador == null){
+                if(trabajador == null)
+                {
 
                     Toast.makeText(PrincipalActivity.this,
                             "Cargando datos...", Toast.LENGTH_SHORT).show();
 
-                } else {
-
-                    //iniciar la activity
                 }
+                else
+                    {
+                    //iniciar la activity
+                    }
 
             }
         });
@@ -179,57 +173,56 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(trabajador == null){
-
+                if(trabajador == null)
+                {
                     Toast.makeText(PrincipalActivity.this,
                             "Cargando datos...", Toast.LENGTH_SHORT).show();
-
-                } else {
-
+                }
+                else
+                    {
                     Intent intent = new Intent(getApplicationContext(), FichajesActivity.class);
                     intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
                     startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
 
         // listener del botón "info" de la empresa
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(trabajador == null){
-
+                if(trabajador == null)
+                {
                     Toast.makeText(PrincipalActivity.this,
                             "Cargando datos...", Toast.LENGTH_SHORT).show();
 
-                } else {
-
-                    // iniciar la activity
                 }
-            }
-        });
+                else
+                    {
+                    // iniciar la activity
+                    }
+                }
+            });
 
         // listener del botón del responsable
             btnAdministrar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if(trabajador == null){
-
+                    if(trabajador == null)
+                    {
                         Toast.makeText(PrincipalActivity.this,
                                 "Cargando datos...", Toast.LENGTH_SHORT).show();
-
-                    } else {
+                    }
+                    else
+                        {
                         Intent intent = new Intent(getApplicationContext(), AdministrarActivity.class);
                         intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
                         startActivity(intent);
-
+                        }
                     }
-                }
-            });
-
-
+                });
 
     }
 }
