@@ -62,6 +62,12 @@
     <string name="primer_periodo">Primer periodo</string>
     <string name="segundo_periodo">Segundo periodo</string>
     <string name="propuestas_pendientes_de_revisar">Propuestas pendientes de revisar</string>
+    <string name="asignar_turnos">Asignar Turnos</string>
+    <string name="asignar_turnos_empleados">Asigne los turnos de los empleados</string>
+    <string name="modificar_turnos">Modificar Turnos</string>
+    <string name="modificar_turnos_empleados">Modifique los turnos de los empleados</string>
+    <string name="ver_turnos">Ver Turnos</string>
+    <string name="ver_turnos_empleados">Vea los turnos asignados</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
