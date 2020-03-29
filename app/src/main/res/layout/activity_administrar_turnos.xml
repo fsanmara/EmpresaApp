@@ -101,7 +101,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_assignment_turned_in_blue_24dp" />
+                    android:src="@drawable/ic_edit" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_watch_later_blue_24dp" />
+                    android:src="@drawable/ic_binoculars" />
 
                 <TextView
                     android:layout_width="wrap_content"
