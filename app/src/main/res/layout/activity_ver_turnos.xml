@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".AsignarTurnosActivity">
+    tools:context=".VerTurnosActivity">
 
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:src="@drawable/ic_arrow_back_blue_24dp" />
 
         <TextView
-            android:id="@+id/tvNombreTrabajador_AsignarTurnos"
+            android:id="@+id/tvNombreTrabajador_VerTurnos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -42,38 +42,83 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
             android:text="@string/seleccione_empleado"
             android:textColor="@color/azul"
             android:textSize="20sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold">
+
+        </TextView>
 
         <Spinner
             android:id="@+id/spTrabajadores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"></Spinner>
+            >
+
+        </Spinner>
 
         <TextView
-            android:id="@+id/tvFechaTurno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:hint="@string/fecha_turno"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/ver_anio"
+            android:textColor="@color/azul"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold">
+
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spAnio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/ver_mes"
+            android:textColor="@color/azul"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spMes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </Spinner>
 
         <Button
-
-            android:id="@+id/btnAsignarTurnos"
+            android:id="@+id/btnVerTurnos"
             android:layout_width="280dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
             android:background="@drawable/btn"
-            android:text="@string/asignar_turno"
+            android:text="@string/ver_turno"
+            android:textAllCaps="false"
+            android:textColor="@color/whitecolor">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btnModificarTurnos"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/btn"
+            android:text="@string/modificar_turno"
             android:textAllCaps="false"
             android:textColor="@color/whitecolor">
 

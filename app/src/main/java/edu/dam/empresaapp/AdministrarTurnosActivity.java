@@ -44,11 +44,22 @@ public class AdministrarTurnosActivity extends AppCompatActivity {
         // referenciamos la BBDD
         db = FirebaseDatabase.getInstance().getReference();
 
+        // listener del cardView Asignar Turnos
         cardAsignarTurnos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), AsignarTurnosActivity.class);
+                intent.putExtra("parametro", mJimenez); //pasamos el objeto mJimenez
+                startActivity(intent);
+            }
+        });
+
+        // listener del cardView Ver turnos
+        cardVerTurnos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), VerTurnosActivity.class);
                 intent.putExtra("parametro", mJimenez); //pasamos el objeto mJimenez
                 startActivity(intent);
             }

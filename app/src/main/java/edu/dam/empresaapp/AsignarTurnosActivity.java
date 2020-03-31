@@ -3,16 +3,21 @@ package edu.dam.empresaapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
@@ -39,7 +45,7 @@ public class AsignarTurnosActivity extends AppCompatActivity {
     private Calendar calendar;
     private String fechaTurno, anio, mes, dia, mesLetra;
 
-    // declaramos un objeto "trabajador"
+    // declaramos un objeto "Trabajador"
     private Trabajador mJimenez;
 
     // referenciamos la BBDD
@@ -101,8 +107,8 @@ public class AsignarTurnosActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 final Trabajador trabajador = listadoTrabajadores.get(position);
-
                 final String idTrabajador = trabajador.getId();
+                final String nombreTrabajador = trabajador.getNombre() + " " + trabajador.getApellido1() + " " + trabajador.getApellido2();
 
                 tvFechaTurno.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -129,6 +135,7 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
                         datePickerDialog.show();
+
                     }
                 });
 
@@ -136,11 +143,38 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        //añadimos los datos a la BBDD
-                        db.child("Turnos").child(idTrabajador).child(anio).child(mesLetra).child(dia).child("dia_turno").setValue(dia);
+                        // verificamos que el textView no esté vacío
+                        if(TextUtils.isEmpty(fechaTurno))
+                        {
+                            Toast.makeText(AsignarTurnosActivity.this,
+                                    "Seleccione una fecha para el turno", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            {
+                                //añadimos los datos a la BBDD
+                                db.child("Turnos").child(idTrabajador).child(anio)
+                                        .child(mesLetra).child(dia).child("dia_turno").setValue(dia);
 
 
+                        // mostramos un ventana de diálogo informativa
+                        AlertDialog.Builder ventana = new AlertDialog.Builder(AsignarTurnosActivity.this);
+
+                        ventana.setTitle("Mensaje");
+                        ventana.setMessage("Turno asignado correctamente a " +  nombreTrabajador +
+                                        " para el " + dia + " de " + mesLetra + " de " + anio);
+
+                        ventana.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = ventana.create();
+                        alert.show();
+
+                        }
                     }
+
                 });
 
             }
@@ -160,7 +194,7 @@ public class AsignarTurnosActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // función que nos permite pasar el mes de int a letras
+    // método que nos permite pasar el mes de int a letras
     public void nombreMes(int mes){
 
         switch (mes) {

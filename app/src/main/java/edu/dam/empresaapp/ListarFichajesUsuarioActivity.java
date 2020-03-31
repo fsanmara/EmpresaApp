@@ -72,7 +72,6 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
                 for (DataSnapshot query : dataSnapshot.child("Fichajes").getChildren())
                 {
                     id = query.getKey();
-
                 }
 
                 db.addValueEventListener(new ValueEventListener() {

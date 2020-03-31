@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AsignarTurnosActivity"></activity>
+        <activity android:name=".VerTurnosActivity"></activity>
+        <activity android:name=".AsignarTurnosActivity" />
         <activity android:name=".ListarSolicitudesVacacionesActivity" />
         <activity android:name=".ControlHorarioActivity" />
         <activity android:name=".ListarFichajesUsuarioActivity" />
