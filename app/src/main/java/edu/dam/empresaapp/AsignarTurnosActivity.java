@@ -154,17 +154,14 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                         else
                             {
                                 //añadimos los datos a la BBDD
-                                db.child("Turnos").child(idTrabajador).child(mesLetra)
+                                db.child("Turnos").child(idTrabajador).child(anio).child(mesLetra)
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
-                                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-
-                                        int i = 1;
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                         for (DataSnapshot objeto : dataSnapshot.getChildren())
                                         {
                                             lista.add(objeto.getValue().toString());
-                                            Toast.makeText(AsignarTurnosActivity.this,objeto.getValue().toString(), Toast.LENGTH_SHORT).show();
                                         }
 
                                         Boolean estado;
@@ -173,10 +170,19 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                                         if(!estado)
                                         {
                                             lista.add(dia);
-                                            //grabar(lista, anio, mesLetra);
 
                                             db.child("Turnos").child(idTrabajador).child(anio)
                                                     .child(mesLetra).setValue(lista);
+
+                                            ventanaDialogo("Mensaje:",
+                                                    "Turno asignado correctamente a " +  nombreTrabajador
+                                                            + " para el " + dia + " de " + mesLetra + " de " + anio);
+                                        }
+                                        else
+                                        {
+                                            ventanaDialogo("Advertencia:",
+                                                    nombreTrabajador + " ya tiene asignado un turno "
+                                            + "para el " + dia + " de " + mesLetra + " de " + anio);
                                         }
                                     }
 
@@ -185,23 +191,6 @@ public class AsignarTurnosActivity extends AppCompatActivity {
 
                                     }
                                 });
-
-
-                        // mostramos un ventana de diálogo informativa
-                        AlertDialog.Builder ventana = new AlertDialog.Builder(AsignarTurnosActivity.this);
-
-                        ventana.setTitle("Mensaje");
-                        ventana.setMessage("Turno asignado correctamente a " +  nombreTrabajador +
-                                        " para el " + dia + " de " + mesLetra + " de " + anio);
-
-                        ventana.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        AlertDialog alert = ventana.create();
-                        alert.show();
 
                         }
                     }
@@ -277,5 +266,24 @@ public class AsignarTurnosActivity extends AppCompatActivity {
         }
 
         return estado;
+    }
+
+    // método que muestra una ventana de diálogo informativa
+    public void ventanaDialogo(String titulo, String mensaje){
+
+        AlertDialog.Builder ventana = new AlertDialog.Builder(AsignarTurnosActivity.this);
+
+        ventana.setTitle(titulo);
+        ventana.setMessage(mensaje);
+
+        ventana.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = ventana.create();
+        alert.show();
     }
 }
