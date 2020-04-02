@@ -143,6 +143,8 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        final List<String> lista = new ArrayList<>();
+
                         // verificamos que el textView no esté vacío
                         if(TextUtils.isEmpty(fechaTurno))
                         {
@@ -152,8 +154,37 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                         else
                             {
                                 //añadimos los datos a la BBDD
-                                db.child("Turnos").child(idTrabajador).child(anio)
-                                        .child(mesLetra).child(dia).child("dia_turno").setValue(dia);
+                                db.child("Turnos").child(idTrabajador).child(mesLetra)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                                        int i = 1;
+
+                                        for (DataSnapshot objeto : dataSnapshot.getChildren())
+                                        {
+                                            lista.add(objeto.getValue().toString());
+                                            Toast.makeText(AsignarTurnosActivity.this,objeto.getValue().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        Boolean estado;
+                                        estado = buscarFecha(lista, dia);
+
+                                        if(!estado)
+                                        {
+                                            lista.add(dia);
+                                            //grabar(lista, anio, mesLetra);
+
+                                            db.child("Turnos").child(idTrabajador).child(anio)
+                                                    .child(mesLetra).setValue(lista);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
 
 
                         // mostramos un ventana de diálogo informativa
@@ -226,5 +257,25 @@ public class AsignarTurnosActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    //método para comprobar si el día ya existe en el ArrayList
+    public Boolean buscarFecha(List<String> lista, String dia)
+    {
+        Boolean estado = false;
+        int indice = 0;
+
+        while (indice < lista.size() && (!estado))
+        {
+            if (dia.equals(lista.get(indice)))
+            {
+                if (dia.equals(lista.get(indice)))
+                    estado = true;
+                else
+                    indice++;
+            }
+        }
+
+        return estado;
     }
 }

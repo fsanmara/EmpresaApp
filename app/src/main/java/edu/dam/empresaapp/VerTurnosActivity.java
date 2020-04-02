@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import edu.dam.empresaapp.adaptadores.AdaptadorMes;
+import edu.dam.empresaapp.adaptadores.AdaptadorAnio;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
 
 public class VerTurnosActivity extends AppCompatActivity {
@@ -28,7 +27,8 @@ public class VerTurnosActivity extends AppCompatActivity {
     private TextView tvNombreTrabajadorVerTurnos;
     private Spinner spTrabajadores, spAnio, spMes;
     private AdaptadorTrabajadores adapterTrabajadores;
-    private AdaptadorMes adapterMes;
+    private AdaptadorAnio adapterAnio;
+    private String idTrabajador, anio, mes, dia;
 
     // declaramos un objeto "Trabajador"
     private Trabajador mJimenez;
@@ -91,20 +91,78 @@ public class VerTurnosActivity extends AppCompatActivity {
         //consultamos la BBDD para llenar el Spinner de los años
         db.child("Turnos").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot query : dataSnapshot.getChildren()){
-
+                for(DataSnapshot query : dataSnapshot.getChildren())
+                {
                     //final Turnos turnos = query.getValue(Turnos.class);
-                    String idTrabajador = query.getKey();
-                    String anio = query.getKey();
-                    Long n = query.getChildrenCount();
-                    Toast.makeText(VerTurnosActivity.this, "numero" + n, Toast.LENGTH_SHORT).show();
-
-                    //listadoTurnos.add(turnos);
-                    adapterMes = new AdaptadorMes(contexto, listadoTurnos);
-                    spMes.setAdapter(adapterMes);
+                    idTrabajador = query.getKey();
                 }
+
+                db.child("Turnos").child(idTrabajador).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        for(DataSnapshot query : dataSnapshot.getChildren())
+                        {
+                            anio = query.getKey();
+                            //Toast.makeText(VerTurnosActivity.this, anio , Toast.LENGTH_SHORT).show();
+                        }
+
+                        db.child("Turnos").child(idTrabajador).child(anio).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                                for(DataSnapshot query : dataSnapshot.getChildren())
+                                {
+                                    mes = query.getKey();
+                                    //Toast.makeText(VerTurnosActivity.this, mes , Toast.LENGTH_SHORT).show();
+                                }
+
+                                db.child("Turnos").child(idTrabajador).child(anio).child(mes).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                                        for(DataSnapshot query : dataSnapshot.getChildren())
+                                        {
+                                            //dia = query.getKey();
+                                            dia = query.getValue().toString();
+                                            //Toast.makeText(VerTurnosActivity.this, dia , Toast.LENGTH_SHORT).show();
+                                        }
+                                        final Turnos turnos = new Turnos(idTrabajador, anio, mes, dia);
+                                        listadoTurnos.add(turnos);
+                                        adapterAnio = new AdaptadorAnio(contexto, listadoTurnos);
+                                        spAnio.setAdapter(adapterAnio);
+
+                                        Toast.makeText(VerTurnosActivity.this, turnos.getIdTrabajador() + " " +
+                                                turnos.getAnioTurno() + " " +
+                                                turnos.getMesTurno() + " " +
+                                                turnos.getDiaTurno(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                /*final Turnos turnos = new Turnos(idTrabajador, anio, mes, dia);
+                listadoTurnos.add(turnos);
+                adapterMes = new AdaptadorMes(contexto, listadoTurnos);
+                spMes.setAdapter(adapterMes);
+
+                Toast.makeText(VerTurnosActivity.this, turnos.getMesTurno(), Toast.LENGTH_SHORT).show();*/
 
             }
 

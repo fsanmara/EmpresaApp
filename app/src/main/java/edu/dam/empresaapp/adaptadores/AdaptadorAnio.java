@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import edu.dam.empresaapp.R;
 import edu.dam.empresaapp.Turnos;
 
-public class AdaptadorMes extends BaseAdapter {
+public class AdaptadorAnio extends BaseAdapter {
 
     private Context contexto;
     private ArrayList<Turnos> listItems;
 
-    public AdaptadorMes(Context contexto, ArrayList<Turnos> listItems) {
+    public AdaptadorAnio(Context contexto, ArrayList<Turnos> listItems) {
         this.contexto = contexto;
         this.listItems = listItems;
     }
@@ -43,8 +43,8 @@ public class AdaptadorMes extends BaseAdapter {
 
         convertView = LayoutInflater.from(contexto).inflate(R.layout.item_adaptador_anio, null);
 
-        ImageView ivUsuario = convertView.findViewById(R.id.ivAnio);
-        ivUsuario.setImageResource(R.drawable.ic_calendar);
+        ImageView ivAnio = convertView.findViewById(R.id.ivAnio);
+        ivAnio.setImageResource(R.drawable.ic_calendar);
 
         anio = item.getAnioTurno();
         TextView tvAnio= convertView.findViewById(R.id.tvAnio);
