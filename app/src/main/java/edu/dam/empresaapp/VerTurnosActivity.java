@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.dam.empresaapp.adaptadores.AdaptadorAnio;
+import edu.dam.empresaapp.adaptadores.AdaptadorDias;
+import edu.dam.empresaapp.adaptadores.AdaptadorMes;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
 
 public class VerTurnosActivity extends AppCompatActivity {
@@ -28,6 +31,9 @@ public class VerTurnosActivity extends AppCompatActivity {
     private Spinner spTrabajadores, spAnio, spMes;
     private AdaptadorTrabajadores adapterTrabajadores;
     private AdaptadorAnio adapterAnio;
+    private AdaptadorMes adapterMes;
+    private AdaptadorDias adapterDia;
+    private ListView lvDias;
     private String idTrabajador, anio, mes, dia;
 
     // declaramos un objeto "Trabajador"
@@ -49,10 +55,10 @@ public class VerTurnosActivity extends AppCompatActivity {
 
         // referenciamos vistas
         tvNombreTrabajadorVerTurnos = findViewById(R.id.tvNombreTrabajador_VerTurnos);
-        spTrabajadores = findViewById(R.id.spTrabajadores);
-        spAnio = findViewById(R.id.spAnio);
-        spMes = findViewById(R.id.spMes);
-
+        spTrabajadores              = findViewById(R.id.spTrabajadores);
+        spAnio                      = findViewById(R.id.spAnio);
+        spMes                       = findViewById(R.id.spMes);
+        lvDias                      = findViewById(R.id.lvDias);
 
         // creamos un objeto "Trabajador"
         mJimenez = new Trabajador();
@@ -114,7 +120,7 @@ public class VerTurnosActivity extends AppCompatActivity {
                                 for(DataSnapshot query : dataSnapshot.getChildren())
                                 {
                                     mes = query.getKey();
-                                    //Toast.makeText(VerTurnosActivity.this, mes , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(VerTurnosActivity.this, mes , Toast.LENGTH_SHORT).show();
                                 }
 
                                 db.child("Turnos").child(idTrabajador).child(anio).child(mes).addValueEventListener(new ValueEventListener() {
@@ -128,8 +134,12 @@ public class VerTurnosActivity extends AppCompatActivity {
                                         }
                                         final Turnos turnos = new Turnos(idTrabajador, anio, mes, dia);
                                         listadoTurnos.add(turnos);
-                                        adapterAnio = new AdaptadorAnio(contexto, listadoTurnos);
+                                        /*adapterAnio = new AdaptadorAnio(contexto, listadoTurnos);
                                         spAnio.setAdapter(adapterAnio);
+                                        adapterMes = new AdaptadorMes(contexto, listadoTurnos);
+                                        spMes.setAdapter(adapterMes);
+                                        adapterDia = new AdaptadorDias(contexto, listadoTurnos);
+                                        lvDias.setAdapter(adapterDia);*/
 
                                         Toast.makeText(VerTurnosActivity.this, turnos.getIdTrabajador() + " " +
                                                 turnos.getAnioTurno() + " " +
@@ -171,6 +181,8 @@ public class VerTurnosActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     //método que al pulsar en el ImageView (flecha) de la cabecera

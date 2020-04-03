@@ -7,16 +7,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import edu.dam.empresaapp.R;
 import edu.dam.empresaapp.Turnos;
 
-public class AdaptadorAnio extends BaseAdapter {
+public class AdaptadorDias extends BaseAdapter {
 
     private Context contexto;
     private ArrayList<Turnos> listItems;
 
-    public AdaptadorAnio(Context contexto, ArrayList<Turnos> listItems) {
+    public AdaptadorDias(Context contexto, ArrayList<Turnos> listItems) {
         this.contexto = contexto;
         this.listItems = listItems;
     }
@@ -38,17 +40,17 @@ public class AdaptadorAnio extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String anio;
+        String dia;
         Turnos item = (Turnos) getItem(position);
 
-        convertView = LayoutInflater.from(contexto).inflate(R.layout.item_adaptador_anio, null);
+        convertView = LayoutInflater.from(contexto).inflate(R.layout.item_adaptador_dia, null);
 
-        ImageView ivAnio = convertView.findViewById(R.id.ivAnio);
-        ivAnio.setImageResource(R.drawable.ic_calendar);
+        //ImageView ivAnio = convertView.findViewById(R.id.ivAnio);
+        //ivAnio.setImageResource(R.drawable.ic_calendar);
 
-        anio = item.getAnioTurno();
-        TextView tvAnio= convertView.findViewById(R.id.tvAnio);
-        tvAnio.setText(anio);
+        dia = item.getDiaTurno();
+        TextView tvDia= convertView.findViewById(R.id.tvDia);
+        tvDia.setText(dia);
 
         return convertView;
     }

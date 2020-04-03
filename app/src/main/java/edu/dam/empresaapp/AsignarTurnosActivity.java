@@ -257,12 +257,9 @@ public class AsignarTurnosActivity extends AppCompatActivity {
         while (indice < lista.size() && (!estado))
         {
             if (dia.equals(lista.get(indice)))
-            {
-                if (dia.equals(lista.get(indice)))
                     estado = true;
                 else
                     indice++;
-            }
         }
 
         return estado;
