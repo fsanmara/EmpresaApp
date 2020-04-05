@@ -1,13 +1,11 @@
 package edu.dam.empresaapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,11 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Objects;
 
-import edu.dam.empresaapp.adaptadores.AdaptadorAnio;
 import edu.dam.empresaapp.adaptadores.AdaptadorDias;
-import edu.dam.empresaapp.adaptadores.AdaptadorMes;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
 
 public class VerTurnosActivity extends AppCompatActivity {
