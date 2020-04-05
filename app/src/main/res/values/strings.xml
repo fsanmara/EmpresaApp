@@ -67,7 +67,7 @@
     <string name="modificar_turnos">Modificar Turnos</string>
     <string name="modificar_turnos_empleados">Modifique los turnos de los empleados</string>
     <string name="ver_turnos">Ver Turnos</string>
-    <string name="ver_turnos_empleados">Vea los turnos asignados</string>
+    <string name="ver_turnos_empleados">Vea y modifique los turnos asignados</string>
     <string name="seleccione_empleado">Seleccione un empleado</string>
     <string name="fecha_turno">Seleccione la fecha</string>
     <string name="asignar_turno">Asignar turno</string>
@@ -76,6 +76,7 @@
     <string name="modificar_turno">Modificar turno</string>
     <string name="ver_turno">Ver turno</string>
     <string name="dias_asignados">Día/s asignado/s</string>
+    <string name="mostrar">Mostrar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

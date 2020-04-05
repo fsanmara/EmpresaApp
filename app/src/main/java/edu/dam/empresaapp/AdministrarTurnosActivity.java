@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class AdministrarTurnosActivity extends AppCompatActivity {
 
     private TextView tvNombreTrabajador;
-    private CardView cardAsignarTurnos, cardModificarTurnos, cardVerTurnos;
+    private CardView cardAsignarTurnos, cardVerTurnos;
 
 
     // declaramos un objeto "trabajador"
@@ -31,7 +31,6 @@ public class AdministrarTurnosActivity extends AppCompatActivity {
         // referenciamos vistas
         tvNombreTrabajador  = findViewById(R.id.tvNombreTrabajador_AdministrarTurnos);
         cardAsignarTurnos   = findViewById(R.id.cardAsignarTurnos);
-        cardModificarTurnos = findViewById(R.id.cardModificarTurnos);
         cardVerTurnos       = findViewById(R.id.cardVerTurnos);
 
         // creamos un objeto "Trabajador"
