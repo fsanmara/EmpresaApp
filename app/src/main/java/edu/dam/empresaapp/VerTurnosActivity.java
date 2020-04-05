@@ -113,7 +113,7 @@ public class VerTurnosActivity extends AppCompatActivity {
 
                 listadoTurnos.clear();
 
-            }//onItemSelected
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
