@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,8 +79,6 @@ public class VerTurnosActivity extends AppCompatActivity {
         tvAnio                      = findViewById(R.id.tvAnio);
         tvMes                       = findViewById(R.id.tvMes);
         btnVerDias                  = findViewById(R.id.btnVerDias);
-
-
 
         // creamos un objeto "Trabajador"
         mJimenez = new Trabajador();
@@ -198,6 +197,21 @@ public class VerTurnosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //verificamos que el usuario haya rellenado
+                //los campos de mes y año
+                if(TextUtils.isEmpty(anio))
+                {
+                    Toast.makeText(VerTurnosActivity.this, "Introduzca el año",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                else if(TextUtils.isEmpty(mesLetra))
+                {
+                    Toast.makeText(VerTurnosActivity.this, "Introduzca el mes",
+                            Toast.LENGTH_SHORT).show();
+                }
+               else
+                {
                 lvDias.setAdapter(null);
                 listadoTurnos.clear();
 
@@ -305,6 +319,7 @@ public class VerTurnosActivity extends AppCompatActivity {
                         });
                     }
                 });
+            }
             }
         });
 
