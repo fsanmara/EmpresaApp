@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.fragments;
 
 
 import android.app.DatePickerDialog;
@@ -25,6 +25,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.activitys.VacacionesActivity;
+import edu.dam.empresaapp.pojos.Vacaciones;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.activitys.GestionarVacacionesActivity;
 import edu.dam.empresaapp.adaptadores.AdaptadorListVacaciones;
+import edu.dam.empresaapp.pojos.Trabajador;
+import edu.dam.empresaapp.pojos.Vacaciones;
 
 public class ListarSolicitudesVacacionesActivity extends AppCompatActivity {
 

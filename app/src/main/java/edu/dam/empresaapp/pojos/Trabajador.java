@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.pojos;
 
 import android.os.Parcel;
 import android.os.Parcelable;

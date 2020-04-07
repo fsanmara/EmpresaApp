@@ -11,23 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerTurnosActivity"></activity>
-        <activity android:name=".AsignarTurnosActivity" />
-        <activity android:name=".ListarSolicitudesVacacionesActivity" />
-        <activity android:name=".ControlHorarioActivity" />
-        <activity android:name=".ListarFichajesUsuarioActivity" />
-        <activity android:name=".LeerQRActivity" />
-        <activity android:name=".FichajesActivity" />
-        <activity android:name=".AdministrarTurnosActivity" />
-        <activity android:name=".GestionSolicitudesActivity" />
-        <activity android:name=".GestionarVacacionesActivity" />
-        <activity android:name=".AdministrarActivity" />
+        <activity android:name=".activitys.TurnoTrabajadorActivity"></activity>
+        <activity android:name=".activitys.VerTurnosActivity" />
+        <activity android:name=".activitys.AsignarTurnosActivity" />
+        <activity android:name=".activitys.ListarSolicitudesVacacionesActivity" />
+        <activity android:name=".activitys.ControlHorarioActivity" />
+        <activity android:name=".activitys.ListarFichajesUsuarioActivity" />
+        <activity android:name=".activitys.LeerQRActivity" />
+        <activity android:name=".activitys.FichajesActivity" />
+        <activity android:name=".activitys.AdministrarTurnosActivity" />
+        <activity android:name=".activitys.GestionSolicitudesActivity" />
+        <activity android:name=".activitys.GestionarVacacionesActivity" />
+        <activity android:name=".activitys.AdministrarActivity" />
         <activity
-            android:name=".VacacionesActivity"
+            android:name=".activitys.VacacionesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".PrincipalActivity" />
-        <activity android:name=".RegistroActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activitys.PrincipalActivity" />
+        <activity android:name=".activitys.RegistroActivity" />
+        <activity android:name=".activitys.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

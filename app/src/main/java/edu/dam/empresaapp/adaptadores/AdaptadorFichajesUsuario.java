@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.dam.empresaapp.Fichajes;
+import edu.dam.empresaapp.pojos.Fichajes;
 import edu.dam.empresaapp.R;
 
 public class AdaptadorFichajesUsuario extends BaseAdapter {

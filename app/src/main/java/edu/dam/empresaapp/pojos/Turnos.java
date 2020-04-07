@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.pojos;
 
 public class Turnos {
 

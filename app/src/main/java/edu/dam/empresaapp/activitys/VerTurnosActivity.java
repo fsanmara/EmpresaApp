@@ -1,12 +1,17 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,10 +31,16 @@ import com.whiteelephant.monthpicker.MonthPickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
+import edu.dam.empresaapp.R;
 import edu.dam.empresaapp.adaptadores.AdaptadorDias;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
+import edu.dam.empresaapp.pojos.Trabajador;
+import edu.dam.empresaapp.pojos.Turnos;
 
 public class VerTurnosActivity extends AppCompatActivity {
 
@@ -61,12 +72,14 @@ public class VerTurnosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ver_turnos);
 
         // referenciamos vistas
-        tvNombreTrabajadorVerTurnos = findViewById(R.id.tvNombreTrabajador_VerTurnos);
+        tvNombreTrabajadorVerTurnos = findViewById(R.id.tvTrabajador_VerTurnos);
         spTrabajadores              = findViewById(R.id.spTrabajadores);
         lvDias                      = findViewById(R.id.lvDias);
         tvAnio                      = findViewById(R.id.tvAnio);
         tvMes                       = findViewById(R.id.tvMes);
         btnVerDias                  = findViewById(R.id.btnVerDias);
+
+
 
         // creamos un objeto "Trabajador"
         mJimenez = new Trabajador();
@@ -126,8 +139,8 @@ public class VerTurnosActivity extends AppCompatActivity {
         int monthNow = calendar.get(Calendar.MONTH);
         int dateNow = calendar.get(Calendar.DAY_OF_MONTH);
 
-        Locale idLocale = new Locale("es", "ID");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd//mm/yyyy", idLocale);
+        Locale spanish = new Locale("es");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd//mm/yyyy", spanish);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(VerTurnosActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -203,6 +216,7 @@ public class VerTurnosActivity extends AppCompatActivity {
                                 final Turnos turnos = new Turnos(idTrabajador, anio, mesLetra, dia);
                                 listadoTurnos.add(turnos);
                             }
+
                             adapterDia = new AdaptadorDias(contexto, listadoTurnos);
                             lvDias.setAdapter(adapterDia);
                         }
@@ -212,6 +226,83 @@ public class VerTurnosActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
+
+                lvDias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        final Turnos turnos = listadoTurnos.get(position);
+                        final String dia = turnos.getDiaTurno();
+
+                        Button btnSi, btnNo;
+                        // creamos la ventana de diálogo
+                        AlertDialog.Builder ventana = new AlertDialog.Builder(contexto);
+                        LayoutInflater inflater = (LayoutInflater)contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                        View vista = inflater.inflate(R.layout.alert_dialog_borrar_dia, null);
+
+                        ventana.setView(vista);
+                        final AlertDialog alert = ventana.create();
+                        alert.show();
+
+                        btnSi = vista.findViewById(R.id.btnSi);
+                        btnNo = vista.findViewById(R.id.btnNo);
+
+                        btnNo.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+                                alert.dismiss();
+                            }
+                        });
+
+                        btnSi.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                final List<String> lista = new ArrayList<>();
+
+                                db.child("Turnos").child(idTrabajador).child(anio).child(mesLetra)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                for (DataSnapshot objeto : dataSnapshot.getChildren())
+                                                {
+                                                    lista.add(objeto.getValue().toString());
+                                                }
+
+                                                Boolean estado;
+                                                estado = buscarFecha(lista, dia);
+
+                                                if(estado)
+                                                {
+                                                    lista.remove(dia);
+
+                                                    db.child("Turnos").child(idTrabajador).child(anio)
+                                                            .child(mesLetra).setValue(lista);
+
+                                                    listadoTurnos.clear();
+                                                    adapterDia.notifyDataSetChanged();
+
+                                                    Toast.makeText(VerTurnosActivity.this, "Día borrado correctamente",
+                                                            Toast.LENGTH_SHORT).show();
+
+                                                    alert.dismiss();
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                            }
+                        });
                     }
                 });
             }
@@ -257,5 +348,21 @@ public class VerTurnosActivity extends AppCompatActivity {
             default: mesLetra = "mes no válido";
                 break;
         }
+    }
+
+    public Boolean buscarFecha(List<String> lista, String dia)
+    {
+        Boolean estado = false;
+        int indice = 0;
+
+        while (indice < lista.size() && (!estado))
+        {
+            if (dia.equals(lista.get(indice)))
+                estado = true;
+            else
+                indice++;
+        }
+
+        return estado;
     }
 }

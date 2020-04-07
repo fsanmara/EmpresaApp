@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +24,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import edu.dam.empresaapp.fragments.ConsultarVacacionesFragment;
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.fragments.SolicitarVacacionesFragment;
+import edu.dam.empresaapp.pojos.Trabajador;
+import edu.dam.empresaapp.pojos.Vacaciones;
 
 public class VacacionesActivity extends AppCompatActivity {
 

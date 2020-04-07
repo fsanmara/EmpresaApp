@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".RegistroActivity">
+    tools:context=".activitys.RegistroActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

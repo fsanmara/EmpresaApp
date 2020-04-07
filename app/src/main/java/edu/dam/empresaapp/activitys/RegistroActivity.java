@@ -1,9 +1,8 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -19,6 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
+
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.pojos.Trabajador;
 
 public class RegistroActivity extends AppCompatActivity {
 

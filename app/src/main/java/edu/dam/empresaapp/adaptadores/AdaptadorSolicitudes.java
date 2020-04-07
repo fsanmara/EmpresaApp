@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import edu.dam.empresaapp.R;
-import edu.dam.empresaapp.Trabajador;
+import edu.dam.empresaapp.pojos.Trabajador;
 
 public class AdaptadorSolicitudes extends BaseAdapter{
 

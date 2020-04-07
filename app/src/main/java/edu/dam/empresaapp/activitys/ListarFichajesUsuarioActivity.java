@@ -1,15 +1,13 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +17,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.activitys.FichajesActivity;
 import edu.dam.empresaapp.adaptadores.AdaptadorFichajesUsuario;
+import edu.dam.empresaapp.pojos.Fichajes;
+import edu.dam.empresaapp.pojos.Trabajador;
 
 public class ListarFichajesUsuarioActivity extends AppCompatActivity {
 

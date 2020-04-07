@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +33,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import edu.dam.empresaapp.R;
 import edu.dam.empresaapp.adaptadores.AdaptadorSolicitudes;
+import edu.dam.empresaapp.pojos.Trabajador;
+import edu.dam.empresaapp.pojos.Vacaciones;
 
 public class GestionSolicitudesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 

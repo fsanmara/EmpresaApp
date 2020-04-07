@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.pojos.Trabajador;
 
 public class PrincipalActivity extends AppCompatActivity {
 
@@ -162,7 +165,9 @@ public class PrincipalActivity extends AppCompatActivity {
                 }
                 else
                     {
-                    //iniciar la activity
+                        Intent intent = new Intent(getApplicationContext(), TurnoTrabajadorActivity.class);
+                        intent.putExtra("parametro", trabajador);
+                        startActivity(intent);
                     }
 
             }

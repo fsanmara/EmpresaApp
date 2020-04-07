@@ -77,6 +77,8 @@
     <string name="ver_turno">Ver turno</string>
     <string name="dias_asignados">Día/s asignado/s</string>
     <string name="mostrar">Mostrar</string>
+    <string name="borrar_dia">¿ Borrar el día seleccionado ?</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

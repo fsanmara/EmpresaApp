@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,8 +20,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.dam.empresaapp.R;
+import edu.dam.empresaapp.activitys.AdministrarActivity;
 import edu.dam.empresaapp.adaptadores.AdaptadorFichajes;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
+import edu.dam.empresaapp.pojos.Fichajes;
+import edu.dam.empresaapp.pojos.Trabajador;
 
 public class ControlHorarioActivity extends AppCompatActivity {
 

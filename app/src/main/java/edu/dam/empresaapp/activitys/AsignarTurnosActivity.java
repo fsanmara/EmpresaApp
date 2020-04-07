@@ -1,4 +1,4 @@
-package edu.dam.empresaapp;
+package edu.dam.empresaapp.activitys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -30,9 +29,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+import edu.dam.empresaapp.R;
 import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
-
-import static java.security.AccessController.getContext;
+import edu.dam.empresaapp.pojos.Trabajador;
 
 public class AsignarTurnosActivity extends AppCompatActivity {
 
