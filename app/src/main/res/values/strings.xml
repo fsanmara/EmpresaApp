@@ -79,6 +79,8 @@
     <string name="mostrar">Mostrar</string>
     <string name="borrar_dia">¿ Borrar el día seleccionado ?</string>
     <string name="cambiar_turno">¿ Solicitar a un compañero cambiar el turno ?</string>
+    <string name="seleccione_companeiro">Seleccione a un compañero</string>
+    <string name="enviar_email">Enviar email</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

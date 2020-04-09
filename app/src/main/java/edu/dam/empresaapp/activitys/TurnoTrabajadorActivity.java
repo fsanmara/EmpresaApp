@@ -33,15 +33,12 @@ import java.util.Locale;
 
 import edu.dam.empresaapp.R;
 import edu.dam.empresaapp.adaptadores.AdaptadorDias;
-import edu.dam.empresaapp.adaptadores.AdaptadorTrabajadores;
 import edu.dam.empresaapp.pojos.Trabajador;
 import edu.dam.empresaapp.pojos.Turnos;
 
 public class TurnoTrabajadorActivity extends AppCompatActivity {
 
     private TextView tvTrabajadorVerTurnos, tvAnio, tvMes;
-    private Spinner spTrabajadores;
-    private AdaptadorTrabajadores adapterTrabajadores;
     private AdaptadorDias adapterDia;
     private ListView lvDias;
     private String anio, mes, dia, mesLetra, idTrabajador;
@@ -68,7 +65,6 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
 
         // referenciamos vistas
         tvTrabajadorVerTurnos = findViewById(R.id.tvNombreTrabajador_VerTurnos);
-        spTrabajadores        = findViewById(R.id.spTrabajadores);
         lvDias                = findViewById(R.id.lvDias);
         tvAnio                = findViewById(R.id.tvAnio);
         tvMes                 = findViewById(R.id.tvMes);
@@ -221,7 +217,9 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                             final Turnos turnos = listadoTurnos.get(position);
-                            final String dia = turnos.getDiaTurno();
+                            final String dia  = turnos.getDiaTurno();
+                            final String mes  = turnos.getMesTurno();
+                            final String anio = turnos.getAnioTurno();
 
                             Button btnSi, btnNo;
                             // creamos la ventana de diálogo
@@ -241,6 +239,19 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     alert.dismiss();
+                                }
+                            });
+
+                            btnSi.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    Intent intent = new Intent(getApplicationContext(), CambioTurnoActivity.class);
+                                    intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
+                                    intent.putExtra("ANIO", anio);
+                                    intent.putExtra("MES", mes);
+                                    intent.putExtra("DIA", dia);
+                                    startActivity(intent);
                                 }
                             });
                         }
