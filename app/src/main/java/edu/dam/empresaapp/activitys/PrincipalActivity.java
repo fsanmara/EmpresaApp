@@ -205,7 +205,9 @@ public class PrincipalActivity extends AppCompatActivity {
                 }
                 else
                     {
-                    // iniciar la activity
+                        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+                        intent.putExtra("parametro", trabajador); //pasamos el objeto trabajador
+                        startActivity(intent);
                     }
                 }
             });
@@ -229,5 +231,20 @@ public class PrincipalActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    //método que al pulsar en el ImageView (flecha) de la cabecera
+    // y el cardview de volver nos lleva a la pantalla anterior
+    public void volver(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    // método que nos permite salir de la aplicación
+    public void salir(View view) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

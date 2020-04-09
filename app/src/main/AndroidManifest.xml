@@ -11,25 +11,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.CambioTurnoActivity"></activity>
-        <activity android:name=".activitys.TurnoTrabajadorActivity" />
-        <activity android:name=".activitys.VerTurnosActivity" />
-        <activity android:name=".activitys.AsignarTurnosActivity" />
-        <activity android:name=".activitys.ListarSolicitudesVacacionesActivity" />
-        <activity android:name=".activitys.ControlHorarioActivity" />
-        <activity android:name=".activitys.ListarFichajesUsuarioActivity" />
-        <activity android:name=".activitys.LeerQRActivity" />
-        <activity android:name=".activitys.FichajesActivity" />
-        <activity android:name=".activitys.AdministrarTurnosActivity" />
-        <activity android:name=".activitys.GestionSolicitudesActivity" />
-        <activity android:name=".activitys.GestionarVacacionesActivity" />
-        <activity android:name=".activitys.AdministrarActivity" />
+        <activity android:name=".activitys.InfoActivity"></activity>
+        <activity
+            android:name=".activitys.CambioTurnoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.TurnoTrabajadorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.VerTurnosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.AsignarTurnosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.ListarSolicitudesVacacionesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.ControlHorarioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.ListarFichajesUsuarioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.LeerQRActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.FichajesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.AdministrarTurnosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.GestionSolicitudesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.GestionarVacacionesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.AdministrarActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activitys.VacacionesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activitys.PrincipalActivity" />
-        <activity android:name=".activitys.RegistroActivity" />
-        <activity android:name=".activitys.MainActivity">
+        <activity
+            android:name=".activitys.PrincipalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.RegistroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activitys.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

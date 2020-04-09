@@ -251,7 +251,7 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
                 // que tenga instalado el usuario
                 String email = trabajador.getEmail();
                 String asunto = "Estado solicitud vacaciones";
-                String cuerpo = "Su solicitud de vacaciones ha sido aceptada.Saludos";
+                String cuerpo = "Su solicitud de vacaciones ha sido aceptada. \n\n Saludos";
 
                 String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
                 Intent request = new Intent(Intent.ACTION_VIEW);
@@ -279,7 +279,7 @@ public class GestionSolicitudesActivity extends AppCompatActivity implements Ada
 
                 String email = trabajador.getEmail();
                 String asunto = "Estado solicitud vacaciones";
-                String cuerpo = "Su solicitud de vacaciones ha sido denegada. Saludos";
+                String cuerpo = "Su solicitud de vacaciones ha sido denegada. \n\n Saludos";
 
                 String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
                 Intent request = new Intent(Intent.ACTION_VIEW);

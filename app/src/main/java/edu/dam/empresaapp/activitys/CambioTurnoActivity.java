@@ -125,11 +125,11 @@ public class CambioTurnoActivity extends AppCompatActivity {
 
 
                                 String asunto = "Cambio de turno";
-                                String cuerpo = "Hola, " + nombre + ".\n" +
+                                String cuerpo = "Hola, " + nombre + ".\n\n" +
                                                 "Me han asignado turno el " +
                                                 dia + " de " + mes + " de " + anio +
-                                                ". ¿ Me lo puedes cambiar ? \n\n" +
-                                                "Saludos " + nombreusuario;
+                                                ".\n\n" + "¿ Me lo puedes cambiar ? \n\n" +
+                                                "Saludos \n\n" + nombreusuario;
 
                                 String emailUrl = "mailto:" + email + "?subject=" + asunto + "&body=" + cuerpo;
                                 Intent request = new Intent(Intent.ACTION_VIEW);
