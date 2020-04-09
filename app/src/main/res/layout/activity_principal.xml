@@ -27,18 +27,11 @@
             android:onClick="volver"
             android:src="@drawable/ic_arrow_back_blue_24dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="salir"
-            android:layout_marginStart="150dp"
-            android:src="@drawable/ic_exit_to_app_blue_24dp"/>
-
         <TextView
             android:id="@+id/tvNombreTrabajador"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:gravity="end"
             android:text=""
             android:textColor="@color/blackcolor"
             android:textSize="15sp" />
@@ -54,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:background="@drawable/user">
 
             <ImageView
@@ -69,7 +61,7 @@
             android:layout_width="280dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_principal"
             android:text="@string/vacaciones"
             android:textAllCaps="false"
@@ -109,13 +101,25 @@
             android:textColor="@color/azul" />
 
         <Button
+            android:id="@+id/botonSalir"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/btn_principal"
+            android:text="@string/salir"
+            android:onClick="salir"
+            android:textAllCaps="false"
+            android:textColor="@color/azul" />
+
+        <Button
             android:id="@+id/btnAdministrar"
             android:text="@string/administrar"
             android:background="@drawable/btn"
             android:layout_width="280dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="30dp"
             android:visibility="gone"
             android:textColor="@color/whitecolor"
             />

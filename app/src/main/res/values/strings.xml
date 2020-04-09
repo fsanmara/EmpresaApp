@@ -54,7 +54,7 @@
     <string name="registro_fichajes">Registro de sus últimos fichajes</string>
     <string name="aceptar">aceptar</string>
     <string name="denegar">denegar</string>
-    <string name="salir">salir</string>
+    <string name="salir">Salir</string>
     <string name="solicitudes_aceptadas">Solicitudes aceptadas</string>
     <string name="vacaciones_solicitadas">Vacaciones solicitadas</string>
     <string name="vacaciones_concedidas">Vacaciones concedidas</string>
@@ -81,6 +81,7 @@
     <string name="cambiar_turno">¿ Solicitar a un compañero cambiar el turno ?</string>
     <string name="seleccione_companeiro">Seleccione a un compañero</string>
     <string name="enviar_email">Enviar email</string>
+    <string name="info_contacto">Información de contacto</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

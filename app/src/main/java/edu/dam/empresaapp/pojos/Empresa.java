@@ -1,6 +1,9 @@
 package edu.dam.empresaapp.pojos;
 
-public class Empresa {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Empresa implements Parcelable {
 
     private String direccion;
     private String email;
@@ -87,5 +90,15 @@ public class Empresa {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
