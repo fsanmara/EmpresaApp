@@ -92,7 +92,7 @@ public class VacacionesActivity extends AppCompatActivity {
                 // del trabajador logueado tiene el estado "pendiente_confirmacion" o
                 // el estado "aceptadas". En estos dos casos no se permitirá que el
                 // usuario solicite vacaciones
-                db.addValueEventListener(new ValueEventListener() {
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -116,14 +116,33 @@ public class VacacionesActivity extends AppCompatActivity {
                                                 "Sus vacaciones están aceptadas",
                                                 Toast.LENGTH_SHORT).show();
                                     }
+                                    else if(estadoVacaciones.equals("denegadas"))
+                                    {
+                                        // al tener las vacaciones denegadas, puede
+                                        // solicitar de nuevo un periodo vacacional.
+                                        // Mediante un Bundle le pasamos al fragment
+                                        // "SolicitarVacacionesFragment" el "id" del usuario
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("ID", idTrabajador);
+                                        svf.setArguments(bundle);
+
+                                        // iniciamos la transición del Fragment, reemplazando el
+                                        // layout de la Activity por el layout del Fragment
+                                        // "SolicitarVacacionesFragment"
+                                        FragmentManager fm = getSupportFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
+                                        ft.replace(R.id.contenedor, svf);
+                                        ft.addToBackStack(null);
+                                        ft.commit();
+                                    }
 
                                 }
                                 else
                                     { // si no existe el nodo y
                                     // en el caso de que las vacaciones no estén
-                                    // ni aceptadas ni rechazadas, mediante un Bundle
-                                    // le pasamos al fragment "SolicitarVacacionesFragment"
-                                    // el "id" del usuario
+                                    // ni aceptadas ni pendientes de aceptación,
+                                    // mediante un Bundle le pasamos al fragment
+                                    // "SolicitarVacacionesFragment" el "id" del usuario
                                     Bundle bundle = new Bundle();
                                     bundle.putString("ID", idTrabajador);
                                     svf.setArguments(bundle);
@@ -184,9 +203,9 @@ public class VacacionesActivity extends AppCompatActivity {
                                 ventana.setMessage("Su solicitud ha sido aceptada");
                             }
 
-                            if (estadoVacaciones.equals("rechazadas"))
+                            if (estadoVacaciones.equals("denegadas"))
                             {
-                                ventana.setMessage("Su solicitud ha sido rechazada");
+                                ventana.setMessage("Su solicitud ha sido denegada");
                             }
 
                             if ((estadoVacaciones.equals("")))

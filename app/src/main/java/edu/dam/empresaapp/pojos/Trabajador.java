@@ -17,17 +17,6 @@ public class Trabajador implements Parcelable {
     public Trabajador() {
     }
 
-    /*// este constructor solo se usará para el registro inicial del usuario
-    public Trabajador(String email, String nif, String nombre, String apellido1, String apellido2, String telefono, Boolean esResponsable) {
-        this.email = email;
-        this.nif = nif;
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
-        this.telefono = telefono;
-        this.esResponsable = esResponsable;
-    }*/
-
     public Trabajador(String id, String email, String nif, String nombre, String apellido1, String apellido2, String telefono, Boolean esResponsable) {
         this.id = id;
         this.email = email;

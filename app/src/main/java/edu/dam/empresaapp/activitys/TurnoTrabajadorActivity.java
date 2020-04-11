@@ -29,6 +29,8 @@ import com.whiteelephant.monthpicker.MonthPickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 import edu.dam.empresaapp.R;
@@ -83,29 +85,8 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
 
         contexto = this;
 
-        /*//consultamos la BBDD para llenar el Spinner de los empleados
-        db.child("Trabajadores").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot objeto : dataSnapshot.getChildren()){
-
-                    final Trabajador trabajador = objeto.getValue(Trabajador.class);
-
-                    listadoTrabajadores.add(trabajador);
-                    adapterTrabajadores = new AdaptadorTrabajadores(contexto, listadoTrabajadores);
-                    spTrabajadores.setAdapter(adapterTrabajadores);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-
+        // como vamos a filtrar por año y mes, nos valemos de
+        // un DatePickerDialog para hacerlo
         Calendar calendar = Calendar.getInstance();
         int yearNow = calendar.get(Calendar.YEAR);
         int monthNow = calendar.get(Calendar.MONTH);
@@ -123,6 +104,7 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
 
         final Calendar today = Calendar.getInstance();
 
+        // listener del textView Anio para seleccionar el año
         tvAnio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +128,7 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
 
         });
 
+        // listener del textView mes
         tvMes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +149,7 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
             }
         });
 
+        //listener del botón Mostrar
         btnVerDias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +171,8 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                     db.child("Turnos").child(idTrabajador).child(anio).child(mesLetra).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // si el dataSnapshot no existe
                             if (!dataSnapshot.exists())
                             {
                                 Toast.makeText(TurnoTrabajadorActivity.this, "Datos no encontrados para el periodo solicitado", Toast.LENGTH_SHORT).show();
@@ -201,6 +187,14 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                                 }
 
                                 adapterDia = new AdaptadorDias(contexto, listadoTurnos);
+
+                                    // ordenamos los días antes de mostrarlos en el ListView
+                                    Collections.sort(listadoTurnos, new Comparator<Turnos>() {
+                                        @Override
+                                        public int compare(Turnos t1, Turnos t2) {
+                                            return new Integer(t1.getDiaTurno()).compareTo(new Integer(t2.getDiaTurno()));
+                                        }
+                                    });
                                 lvDias.setAdapter(adapterDia);
                             }
 
@@ -222,6 +216,7 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                             final String anio = turnos.getAnioTurno();
 
                             Button btnSi, btnNo;
+
                             // creamos la ventana de diálogo
                             AlertDialog.Builder ventana = new AlertDialog.Builder(contexto);
                             LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -235,6 +230,7 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                             btnSi = vista.findViewById(R.id.btnSi);
                             btnNo = vista.findViewById(R.id.btnNo);
 
+                            //listener del botón "no" del alertDialog
                             btnNo.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -242,6 +238,9 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
                                 }
                             });
 
+                            // listener del botón "sí". En este caso, el usuario quiere pedirle a
+                            // un compañero que le cambie el turno, por lo que pasamos los datos
+                            // que nos hacen falta a la activity CambioTurnoActivity
                             btnSi.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

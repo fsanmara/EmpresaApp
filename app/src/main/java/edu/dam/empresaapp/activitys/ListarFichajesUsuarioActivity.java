@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -64,10 +65,62 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
         adaptador = new AdaptadorFichajesUsuario(this,list);
         lvFichajesUsuario.setAdapter(adaptador);
 
-        // referenciamos la BBDD
+        // obtenemos la referencia de la BBDD
         db = FirebaseDatabase.getInstance().getReference();
 
-        db.addValueEventListener(new ValueEventListener() {
+        // limitamos la búsqueda a los últimos 30 días
+        Query query = db.child("Fichajes").child(idTrabajador).limitToLast(30);
+
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot query : dataSnapshot.getChildren())
+                        {
+                            fecha = query.getKey();
+
+                            horaEntrada = query.child("hora_entrada").getValue().toString();
+
+                            // cuando el usuario lee el QR, se crean los nodos "hora_entrada" y
+                            // texto_entrada, pero los nodos "hora_salida" y "texto_salida" no van
+                            // a existir hasta que el usuario vuelva a leer el QR por segunda vez
+                            // el mismo día. Si el usuario lista los fichajes antes de la segunda
+                            // lectura, los nodos "hora_salida y "texto_salida" no existirán y se
+                            // producirá un nullpointerexception. Por eso creamos estructuras if en
+                            // dichos nodos
+                            if(!query.child("hora_salida").exists()){
+                                horaSalida = "sin registrar";
+                            } else {
+                                horaSalida = query.child("hora_salida").getValue().toString();
+                            }
+
+                            textoEntrada = query.child("texto_entrada").getValue().toString();
+
+                            if(!query.child("texto_salida").exists()){
+                                textoSalida = "";
+                            } else {
+                                textoSalida = query.child("texto_salida").getValue().toString();
+                            }
+
+
+                            fichajes = new Fichajes(idTrabajador, fecha, horaEntrada, horaSalida, textoEntrada, textoSalida);
+
+                            list.add(fichajes);
+
+                            adaptador.notifyDataSetChanged();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+        /*db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -130,7 +183,7 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
     }
 

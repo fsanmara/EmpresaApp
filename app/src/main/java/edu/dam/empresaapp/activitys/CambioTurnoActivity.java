@@ -105,10 +105,13 @@ public class CambioTurnoActivity extends AppCompatActivity {
 
                 final Trabajador trabajador = listadoTrabajadores.get(position);
 
+                // guardamos variables que nos servirán a la hora
+                // de enviar el email
                 final String nombre    = trabajador.getNombre();
                 final String apellido1 = trabajador.getApellido1();
                 final String email     = trabajador.getEmail();
 
+                //listener del botón "Enviar email"
                 btnEnviarEmail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

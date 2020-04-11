@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
@@ -232,6 +233,14 @@ public class VerTurnosActivity extends AppCompatActivity {
                             }
 
                             adapterDia = new AdaptadorDias(contexto, listadoTurnos);
+
+                            // ordenamos los días antes de mostrarlos en el ListView
+                            Collections.sort(listadoTurnos, new Comparator<Turnos>() {
+                                @Override
+                                public int compare(Turnos t1, Turnos t2) {
+                                    return new Integer(t1.getDiaTurno()).compareTo(new Integer(t2.getDiaTurno()));
+                                }
+                            });
                             lvDias.setAdapter(adapterDia);
                         }
 
@@ -287,6 +296,7 @@ public class VerTurnosActivity extends AppCompatActivity {
                                                 for (DataSnapshot objeto : dataSnapshot.getChildren())
                                                 {
                                                     lista.add(objeto.getValue().toString());
+
                                                 }
 
                                                 Boolean estado;
