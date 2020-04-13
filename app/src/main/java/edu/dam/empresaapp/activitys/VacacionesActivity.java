@@ -172,7 +172,7 @@ public class VacacionesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                db.addValueEventListener(new ValueEventListener() {
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -269,7 +269,7 @@ public class VacacionesActivity extends AppCompatActivity {
                 ft.replace(R.id.contenedor, cvf);
                 ft.addToBackStack(null);
                 ft.commit();
-            }
+                }
         });
 
     }

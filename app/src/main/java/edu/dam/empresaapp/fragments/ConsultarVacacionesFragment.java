@@ -65,7 +65,7 @@ public class ConsultarVacacionesFragment extends Fragment {
         // consultamos a la BBDD para saber los periodos seleccionados
         // y la fecha de los mismos
 
-        db.addValueEventListener(new ValueEventListener() {
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -80,8 +80,8 @@ public class ConsultarVacacionesFragment extends Fragment {
                 // "id_trabajador" del usuario logueado aún no se habría
                 //  creado en la colección "Vacaciones" de la BBDD. Así que
                 // mediante un "if" comprobamos que el nodo exista en la BBDD
-                if (dataSnapshot.child(idTrabajador).child(anio).exists()) {
-
+                if (dataSnapshot.child(idTrabajador).child(anio).exists())
+                {
                     // si existe
                     periodos = dataSnapshot.child(idTrabajador).child(anio)
                             .child("numero_periodos").getValue().toString();
@@ -94,20 +94,21 @@ public class ConsultarVacacionesFragment extends Fragment {
                     fechaFinP2 = dataSnapshot.child(idTrabajador).child(anio)
                             .child("fecha_fin_periodo2").getValue().toString();
 
-                    if (periodos.equals("1")) {
-
+                    if (periodos.equals("1"))
+                    {
                         txtPeriodos.setText("Ha solicitado un periodo de vacaciones: \n\n");
                         txtPeriodos.append("entre el " + fechaInicioP1 + " y el " + fechaFinP1);
-
-
-                    } else {
-
+                    }
+                    else
+                        {
                         txtPeriodos.setText("Ha solicitado dos periodos de vacaciones: \n\n");
                         txtPeriodos.append("entre el " + fechaInicioP1 + " y el " + fechaFinP1 + "\n\n");
                         txtPeriodos.append(" y del " + fechaInicioP2 + " al " + fechaFinP2);
+
                     }
 
-                } else { // si el nodo no existe en la BBDD
+                } else
+                    { // si el nodo no existe en la BBDD
 
                     AlertDialog.Builder ventana = new AlertDialog.Builder(getContext());
                     ventana.setTitle("Mensaje");
@@ -121,7 +122,7 @@ public class ConsultarVacacionesFragment extends Fragment {
 
                     AlertDialog alert = ventana.create();
                     alert.show();
-
+                        getActivity().onBackPressed();
                 }
 
             }
