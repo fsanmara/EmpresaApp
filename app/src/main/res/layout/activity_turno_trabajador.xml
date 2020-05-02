@@ -39,6 +39,15 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/listado_turnos"
+            android:textColor="@color/azul"
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
             android:id="@+id/tvAnio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

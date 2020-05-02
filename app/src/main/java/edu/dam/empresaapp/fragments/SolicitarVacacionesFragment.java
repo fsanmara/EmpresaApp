@@ -548,7 +548,7 @@ public class SolicitarVacacionesFragment extends Fragment {
                                         fechaFinP1,
                                         fechaInicioP2,
                                         fechaFinP2,
-                                        "pendiente");
+                                        "pendiente_confirmacion");
 
                                 Intent intent = new Intent(getContext(), VacacionesActivity.class);
                                 intent.putExtra("VACACIONES", vacaciones);

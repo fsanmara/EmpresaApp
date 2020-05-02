@@ -82,6 +82,7 @@
     <string name="seleccione_companeiro">Seleccione a un compañero</string>
     <string name="enviar_email">Enviar email</string>
     <string name="info_contacto">Información de contacto</string>
+    <string name="listado_turnos">Listado de turnos asignados</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

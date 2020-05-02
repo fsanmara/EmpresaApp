@@ -153,6 +153,10 @@ public class TurnoTrabajadorActivity extends AppCompatActivity {
         btnVerDias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                lvDias.setAdapter(null);
+                listadoTurnos.clear();
+
                 //verificamos que el usuario haya rellenado
                 //los campos de mes y año
                 if (TextUtils.isEmpty(anio))

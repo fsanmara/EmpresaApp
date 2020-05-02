@@ -33,6 +33,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/seleccione_empleado"
+        android:textColor="@color/azul"
+        android:textSize="20sp"
+        android:textStyle="bold"></TextView>
+
     <Spinner
     android:id="@+id/spTrabajadores"
     android:layout_width="match_parent"

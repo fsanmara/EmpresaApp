@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,12 +69,22 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
         // obtenemos la referencia de la BBDD
         db = FirebaseDatabase.getInstance().getReference();
 
-        // limitamos la búsqueda a los últimos 30 días
-        Query query = db.child("Fichajes").child(idTrabajador).limitToLast(30);
 
-                query.addValueEventListener(new ValueEventListener() {
+
+        // limitamos la búsqueda a los últimos 30 días
+         Query query = db.child("Fichajes").child(idTrabajador).limitToLast(30);
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(!dataSnapshot.exists())
+                        {
+                            Toast.makeText(ListarFichajesUsuarioActivity.this,
+                                    "No hay resultados que mostrar",
+                                    Toast.LENGTH_SHORT).show();
+                            lvFichajesUsuario.setAdapter(null);
+                        }
 
                         for (DataSnapshot query : dataSnapshot.getChildren())
                         {
@@ -82,7 +93,7 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
                             horaEntrada = query.child("hora_entrada").getValue().toString();
 
                             // cuando el usuario lee el QR, se crean los nodos "hora_entrada" y
-                            // texto_entrada, pero los nodos "hora_salida" y "texto_salida" no van
+                            // "texto_entrada", pero los nodos "hora_salida" y "texto_salida" no van
                             // a existir hasta que el usuario vuelva a leer el QR por segunda vez
                             // el mismo día. Si el usuario lista los fichajes antes de la segunda
                             // lectura, los nodos "hora_salida y "texto_salida" no existirán y se
@@ -107,9 +118,8 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
 
                             list.add(fichajes);
 
-                            adaptador.notifyDataSetChanged();
-
                         }
+                        adaptador.notifyDataSetChanged();
 
                     }
 
@@ -118,7 +128,6 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
 
                     }
                 });
-
 
         /*db.addValueEventListener(new ValueEventListener() {
             @Override

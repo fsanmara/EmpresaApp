@@ -16,6 +16,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +43,17 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
+        <TextView
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/azul"
+            android:text="@string/registro_fichajes"/>
+
         <ListView
+            android:layout_marginTop="15dp"
             android:id="@+id/lvFichajesUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
