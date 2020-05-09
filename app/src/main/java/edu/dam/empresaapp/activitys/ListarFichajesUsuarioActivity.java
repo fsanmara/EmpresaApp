@@ -83,7 +83,6 @@ public class ListarFichajesUsuarioActivity extends AppCompatActivity {
                             Toast.makeText(ListarFichajesUsuarioActivity.this,
                                     "No hay resultados que mostrar",
                                     Toast.LENGTH_SHORT).show();
-                            lvFichajesUsuario.setAdapter(null);
                         }
 
                         for (DataSnapshot query : dataSnapshot.getChildren())

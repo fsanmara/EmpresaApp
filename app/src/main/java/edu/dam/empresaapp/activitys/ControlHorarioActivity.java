@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -112,9 +113,16 @@ public class ControlHorarioActivity extends AppCompatActivity {
                 // ArrayList. Limitamos la búsqueda a los últimos 30 registros
                 Query query = db.child("Fichajes").child(idTrabajador).limitToLast(30);
 
-                query.addValueEventListener(new ValueEventListener() {
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(!dataSnapshot.exists())
+                        {
+                            Toast.makeText(getApplicationContext(),
+                                    "No hay resultados que mostrar para el trabajador seleccionado",
+                                    Toast.LENGTH_SHORT).show();
+                        }
 
                         for (DataSnapshot query : dataSnapshot.getChildren())
                         {
