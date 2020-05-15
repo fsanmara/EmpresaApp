@@ -310,13 +310,14 @@ public class VerTurnosActivity extends AppCompatActivity {
                                                             .child(mesLetra).setValue(lista);
 
                                                     listadoTurnos.clear();
-                                                    adapterDia.notifyDataSetChanged();
+                                                    //adapterDia.notifyDataSetChanged();
 
                                                     Toast.makeText(VerTurnosActivity.this, "Día borrado correctamente",
                                                             Toast.LENGTH_SHORT).show();
 
                                                     alert.dismiss();
                                                 }
+                                                adapterDia.notifyDataSetChanged();
 
                                             }
 
@@ -327,6 +328,7 @@ public class VerTurnosActivity extends AppCompatActivity {
                                         });
                             }
                         });
+
                     }
                 });
             }
